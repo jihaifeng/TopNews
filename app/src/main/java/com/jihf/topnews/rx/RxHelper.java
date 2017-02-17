@@ -63,19 +63,19 @@ public class RxHelper {
     builder.addNetworkInterceptor(cacheInterceptor);
 
     // 设置头部
-    Interceptor headerInterceptor = new Interceptor() {
-      @Override public Response intercept(Chain chain) throws IOException {
-        Request originalRequest = chain.request();
-        Request.Builder requestBuilder = originalRequest.newBuilder()
-            .header("AppType", "TPOS")
-            .header("Content-Type", "application/json")
-            .header("Accept", "application/json")
-            .method(originalRequest.method(), originalRequest.body());
-        Request request = requestBuilder.build();
-        return chain.proceed(request);
-      }
-    };
-    builder.addInterceptor(headerInterceptor);
+    //Interceptor headerInterceptor = new Interceptor() {
+    //  @Override public Response intercept(Chain chain) throws IOException {
+    //    Request originalRequest = chain.request();
+    //    Request.Builder requestBuilder = originalRequest.newBuilder()
+    //        .header("AppType", "TPOS")
+    //        .header("Content-Type", "application/json")
+    //        .header("Accept", "application/json")
+    //        .method(originalRequest.method(), originalRequest.body());
+    //    Request request = requestBuilder.build();
+    //    return chain.proceed(request);
+    //  }
+    //};
+    //builder.addInterceptor(headerInterceptor);
 
     //设置请求公共参数
     //Interceptor publicParameterInterceptor = new Interceptor() {
@@ -101,12 +101,15 @@ public class RxHelper {
     cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
     //  new JavaNetCookieJar() 需要依赖   compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
     builder.cookieJar(new JavaNetCookieJar(cookieManager));
+
+
     //设置log信息拦截器
     if (BuildConfig.DEBUG) {
       HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
       logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
       builder.addInterceptor(logInterceptor);
     }
+
     //设置超时
     builder.connectTimeout(10, TimeUnit.SECONDS);
     builder.readTimeout(20, TimeUnit.SECONDS);
@@ -114,6 +117,7 @@ public class RxHelper {
 
     //错误重连
     builder.retryOnConnectionFailure(true);
+
     //以上设置结束，才能build(),不然设置白搭
     client = builder.build();
   }

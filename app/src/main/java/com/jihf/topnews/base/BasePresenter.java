@@ -1,6 +1,6 @@
 package com.jihf.topnews.base;
 
-import com.jihf.topnews.entity.ResultBean;
+import android.content.Context;
 
 /**
  * Func： presenter基类
@@ -9,24 +9,23 @@ import com.jihf.topnews.entity.ResultBean;
  * Data：2017-02-07 10:37
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BasePresenter<T extends BaseView> {
-  private T mvpView;
+public abstract class BasePresenter<V> {
+  private V mvpView;
+  protected Context context;
 
-  protected void attachView(T view) {
+  public void attachView(V view) {
     this.mvpView = view;
   }
 
-  void detachView() {
+  public void detachView() {
     this.mvpView = null;
   }
 
-  protected T getMvpView() {
+  public V getMvpView() {
     return mvpView;
   }
 
-  public abstract void onSuccess(ResultBean resultBean);
-
-  public abstract void onFailure(String msg);
-
-
+  public BasePresenter(Context context) {
+    this.context = context;
+  }
 }

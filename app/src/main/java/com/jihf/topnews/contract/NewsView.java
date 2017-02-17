@@ -1,6 +1,7 @@
 package com.jihf.topnews.contract;
 
 import com.jihf.topnews.base.BaseView;
+import com.jihf.topnews.model.news.ResultBean;
 
 /**
  * Func：
@@ -10,5 +11,5 @@ import com.jihf.topnews.base.BaseView;
  * Mail：jihaifeng@raiyi.com
  */
 public interface NewsView extends BaseView {
-
+  void showData(ResultBean resultBean);
 }

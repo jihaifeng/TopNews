@@ -3,16 +3,13 @@ package com.jihf.topnews.presenter;
 import android.content.Context;
 import com.jihf.topnews.base.BasePresenter;
 import com.jihf.topnews.constants.JuHeConstants;
-import com.jihf.topnews.constants.UrlConstants;
 import com.jihf.topnews.contract.NewsView;
-import com.jihf.topnews.entity.ResultBean;
-import com.jihf.topnews.http.HttpResult;
+import com.jihf.topnews.http.HttpApiMethed;
 import com.jihf.topnews.http.HttpResultFuc;
-import com.jihf.topnews.http.JuheApiService;
-import com.jihf.topnews.model.NewsModel;
+import com.jihf.topnews.model.news.ResultBean;
 import com.jihf.topnews.progress.ProgressSubscriber;
-import com.jihf.topnews.rx.RxHelper;
 import com.jihf.topnews.rx.RxSchedulersHelper;
+import com.jihf.topnews.rx.RxSubscriber;
 
 /**
  * Func：
@@ -22,42 +19,53 @@ import com.jihf.topnews.rx.RxSchedulersHelper;
  * Mail：jihaifeng@raiyi.com
  */
 public class NewsPresenter extends BasePresenter<NewsView> {
-  private NewsModel newsModel;
-  private NewsView newsView;
 
-  public NewsPresenter(NewsView newsView) {
-    attachView(newsView);
-    this.newsView = newsView;
-    this.newsModel = new NewsModel(this);
+  public NewsPresenter(Context context) {
+    super(context);
   }
 
-  public void loadData(Context context) {
-    //newsModel.loadData(context);
-    JuheApiService service = RxHelper.getInstance().getApiService(UrlConstants.URL_TOP_NEWS, JuheApiService.class);
-    service.getTopNews(JuHeConstants.KEY_NEWS, JuHeConstants.TYPE_TOP)
+  public void getData() {
+    HttpApiMethed.getJuheApiService()
+        //获取新闻头条数据
+        .getTopNews(JuHeConstants.KEY_NEWS, JuHeConstants.TYPE_TOP)
         // 线程指定
-        .compose(RxSchedulersHelper.<HttpResult<ResultBean>>io_main())
+        .compose(RxSchedulersHelper.io_main())
         // 生命周期绑定
-        .compose(newsView.<HttpResult<ResultBean>>bindToLifecycle())
+        .compose(getMvpView().bindToLifecycle())
         // 数据预处理
-        .map(new HttpResultFuc<ResultBean>())
+        .map(new HttpResultFuc<>())
         // 订阅
-        .subscribe(new ProgressSubscriber<ResultBean>(context) {
-          @Override public void onError(String msg) {
-            newsView.showError(msg);
+        .subscribe(new RxSubscriber<ResultBean>() {
+
+          @Override protected void onError(String msg) {
+            getMvpView().showError(msg);
           }
 
-          @Override public void onNext(ResultBean resultBean) {
-            newsView.showData(resultBean);
+          @Override public void onNext(ResultBean bean) {
+            getMvpView().showData(bean);
           }
         });
   }
 
-  @Override public void onSuccess(ResultBean resultBean) {
-    getMvpView().showData(resultBean);
-  }
+  public void getData2() {
+    HttpApiMethed.getJuheApiService()
+        //获取新闻头条数据
+        .getTopNews(JuHeConstants.KEY_NEWS, JuHeConstants.TYPE_TOP)
+        // 线程指定
+        .compose(RxSchedulersHelper.io_main())
+        // 生命周期绑定
+        .compose(getMvpView().bindToLifecycle())
+        // 数据预处理
+        .map(new HttpResultFuc<>())
+        // 订阅
+        .subscribe(new ProgressSubscriber<ResultBean>(context) {
+          @Override public void onError(String msg) {
+            getMvpView().showError(msg);
+          }
 
-  @Override public void onFailure(String msg) {
-    getMvpView().showError(msg);
+          @Override public void onNext(ResultBean bean) {
+            getMvpView().showData(bean);
+          }
+        });
   }
 }

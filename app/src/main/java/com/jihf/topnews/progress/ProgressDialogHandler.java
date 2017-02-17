@@ -2,7 +2,6 @@ package com.jihf.topnews.progress;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 
@@ -41,11 +40,7 @@ public class ProgressDialogHandler extends Handler {
       progressDialog.setMessage("努力加载中...");
       progressDialog.setCancelable(cancelable);
       if (cancelable) {
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override public void onCancel(DialogInterface dialogInterface) {
-            mProgressCancelListener.onCancelProgress();
-          }
-        });
+        progressDialog.setOnCancelListener(dialogInterface -> mProgressCancelListener.onCancelProgress());
       }
       if (!progressDialog.isShowing()) {
         progressDialog.show();

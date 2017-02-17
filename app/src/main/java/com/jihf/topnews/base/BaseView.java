@@ -1,6 +1,5 @@
 package com.jihf.topnews.base;
 
-import com.jihf.topnews.entity.ResultBean;
 import com.jihf.topnews.rx.RxBaseView;
 
 /**
@@ -11,7 +10,8 @@ import com.jihf.topnews.rx.RxBaseView;
  * Mail：jihaifeng@raiyi.com
  */
 public interface BaseView extends RxBaseView {
-  void showData(ResultBean resultBean);
+  void showLoading();
 
+  void hideLoading();
   void showError(String msg);
 }

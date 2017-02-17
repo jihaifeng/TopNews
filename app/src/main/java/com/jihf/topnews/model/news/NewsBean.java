@@ -1,13 +1,14 @@
-package com.jihf.topnews.entity;
+package com.jihf.topnews.model.news;
 
 /**
  * Func：
  * Desc:
  * Author：jihf
- * Data：2017-02-08 11:20
+ * Data：2017-02-06 17:24
  * Mail：jihaifeng@raiyi.com
  */
-public class DataBean {
+public class NewsBean {
+
   /**
    * uniquekey : 75f2852f07d23cc8301dfb9cb146aa72
    * title : 一位81岁老太”怀孕“，拍X光后让医生都难以置信！

@@ -1,4 +1,4 @@
-package com.jihf.topnews.entity;
+package com.jihf.topnews.model.news;
 
 /**
  * Func：

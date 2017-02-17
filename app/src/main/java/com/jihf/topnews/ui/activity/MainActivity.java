@@ -1,25 +1,24 @@
 package com.jihf.topnews.ui.activity;
 
 import android.support.v7.widget.AppCompatButton;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import butterknife.BindView;
-import butterknife.OnClick;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.app.App;
 import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.NewsView;
-import com.jihf.topnews.entity.ResultBean;
+import com.jihf.topnews.model.news.ResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
+import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends BaseMvpActivity<NewsPresenter> implements NewsView {
+public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> implements NewsView {
 
   @BindView (R.id.btn_top_news) AppCompatButton btnTopNews;
   @BindView (R.id.iv_show) ImageView ivShow;
-  @BindView (R.id.activity_main) LinearLayout activityMain;
+  @BindView (R.id.btn_top_get) AppCompatButton btnTopGet;
 
   @Override protected NewsPresenter initPresenter() {
     return new NewsPresenter(this);
@@ -30,15 +29,16 @@ public class MainActivity extends BaseMvpActivity<NewsPresenter> implements News
   }
 
   @Override protected void initViewAndEvent() {
-    //RxView.clicks(btnTopNews).subscribe(new Action1<Void>() {
-    //  @Override public void call(Void aVoid) {
-    //    getPresenter().loadData(MainActivity.this);
-    //  }
-    //});
+    RxView.clicks(btnTopNews).throttleFirst(0, TimeUnit.SECONDS).subscribe(click -> {
+      getPresenter().getData();
+    });
+    RxView.clicks(btnTopGet).subscribe(click ->{
+      getPresenter().getData2();
+    });
   }
 
   @Override protected boolean stopSwipeBack() {
-    return true;
+    return false;
   }
 
   @Override public void showData(ResultBean resultBean) {
@@ -48,20 +48,5 @@ public class MainActivity extends BaseMvpActivity<NewsPresenter> implements News
 
   @Override public void showError(String msg) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-  }
-
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-  }
-
-  @OnClick ({ R.id.btn_top_news, R.id.iv_show }) public void onClick(View view) {
-    switch (view.getId()) {
-      case R.id.btn_top_news:
-        getPresenter().loadData(this);
-        break;
-      case R.id.iv_show:
-        break;
-    }
   }
 }

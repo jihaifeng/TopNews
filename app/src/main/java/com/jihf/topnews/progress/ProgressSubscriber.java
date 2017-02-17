@@ -1,7 +1,9 @@
 package com.jihf.topnews.progress;
 
 import android.content.Context;
-import com.jihf.topnews.rx.RxSubscriber;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import rx.Subscriber;
 
 /**
  * Func：progress抽象类
@@ -10,7 +12,7 @@ import com.jihf.topnews.rx.RxSubscriber;
  * Data：2017-02-08 13:30
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class ProgressSubscriber<T> extends RxSubscriber<T> implements ProgressCancelListener {
+public abstract class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCancelListener {
   private Context context;
   private ProgressDialogHandler mProgressDialogHandler;
 
@@ -28,7 +30,12 @@ public abstract class ProgressSubscriber<T> extends RxSubscriber<T> implements P
   }
 
   @Override public void onError(Throwable e) {
-    dismissProgressDialog();
+
+    if (e instanceof SocketTimeoutException || e instanceof ConnectException) {
+      onError("网络中断，请检查您的网络状态");
+    } else {
+      onError(e.getMessage());
+    }
   }
 
   private void showProgressDialog() {
@@ -49,4 +56,6 @@ public abstract class ProgressSubscriber<T> extends RxSubscriber<T> implements P
       this.unsubscribe();
     }
   }
+
+  public abstract void onError(String msg);
 }

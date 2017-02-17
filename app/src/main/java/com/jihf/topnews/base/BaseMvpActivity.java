@@ -11,6 +11,7 @@ import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.swipbackhelper.SwipeBackHelper;
+import com.jihf.topnews.utils.ProgressDialogUtils;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
@@ -20,7 +21,8 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * Data：2017-02-07 09:08
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseMvpActivity<T extends BasePresenter> extends RxAppCompatActivity {
+public abstract class BaseMvpActivity<V, T extends BasePresenter<V>> extends RxAppCompatActivity
+    implements BaseView, ProgressDialogUtils.ProgressCancelListener {
   public static String TAG = BaseMvpActivity.class.getSimpleName().trim();
   private Context mBaseContext;
   private Activity mCurrentActivity;
@@ -37,6 +39,7 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends RxAppComp
     setActivityStatus(this);
     //Utils.init(this);
     //LogUtils.setLogSwitch(BuildConfig.DEBUG);
+    //presenter注入
     presenter = initPresenter();
     initViewAndEvent();
     mBaseContext = this;
@@ -64,6 +67,9 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends RxAppComp
 
   @Override protected void onResume() {
     super.onResume();
+    if (null != presenter) {
+      presenter.attachView((V) this);
+    }
     LogUtils.i(TAG, "-------onResume------");
   }
 
@@ -165,7 +171,23 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends RxAppComp
     startActivity(intent);
   }
 
+  @Override public void showLoading() {
+    ProgressDialogUtils.showProgressDialog(this, this);
+  }
+
+  @Override public void hideLoading() {
+    ProgressDialogUtils.hideProgressDialog();
+  }
+
+  @Override public void onCancelProgress() {
+    //progressdialog 手动停止，需要时在子类中实现
+    ProgressDialogUtils.clearDialog();
+  }
+
   public T getPresenter() {
+    if (null == presenter) {
+      throw new NullPointerException("you have not init presenter.");
+    }
     return presenter;
   }
 
