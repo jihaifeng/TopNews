@@ -29,5 +29,5 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
   }
 
-  protected abstract void onError(String msg);
+  protected abstract void onError(String message);
 }

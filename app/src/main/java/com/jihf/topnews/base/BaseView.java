@@ -10,8 +10,5 @@ import com.jihf.topnews.rx.RxBaseView;
  * Mail：jihaifeng@raiyi.com
  */
 public interface BaseView extends RxBaseView {
-  void showLoading();
-
-  void hideLoading();
   void showError(String msg);
 }

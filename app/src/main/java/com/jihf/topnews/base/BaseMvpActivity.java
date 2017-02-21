@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.swipbackhelper.SwipeBackHelper;
+import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.utils.ProgressDialogUtils;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -21,8 +24,8 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * Data：2017-02-07 09:08
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseMvpActivity<V, T extends BasePresenter<V>> extends RxAppCompatActivity
-    implements BaseView, ProgressDialogUtils.ProgressCancelListener {
+public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresenter<V>> extends RxAppCompatActivity
+    implements BaseView {
   public static String TAG = BaseMvpActivity.class.getSimpleName().trim();
   private Context mBaseContext;
   private Activity mCurrentActivity;
@@ -70,7 +73,7 @@ public abstract class BaseMvpActivity<V, T extends BasePresenter<V>> extends RxA
     if (null != presenter) {
       presenter.attachView((V) this);
     }
-    LogUtils.i(TAG, "-------onResume------");
+    LogUtils.i(TAG, "-------onResume------" + (V) this);
   }
 
   @Override protected void onStop() {
@@ -171,24 +174,25 @@ public abstract class BaseMvpActivity<V, T extends BasePresenter<V>> extends RxA
     startActivity(intent);
   }
 
-  @Override public void showLoading() {
-    ProgressDialogUtils.showProgressDialog(this, this);
-  }
-
-  @Override public void hideLoading() {
-    ProgressDialogUtils.hideProgressDialog();
-  }
-
-  @Override public void onCancelProgress() {
-    //progressdialog 手动停止，需要时在子类中实现
-    ProgressDialogUtils.clearDialog();
-  }
-
   public T getPresenter() {
     if (null == presenter) {
       throw new NullPointerException("you have not init presenter.");
     }
     return presenter;
+  }
+
+  @Override public void showError(String msg) {
+    hideLoading();
+    Toast.makeText(this, TextUtils.isEmpty(msg) ? "数据异常" : msg, Toast.LENGTH_SHORT).show();
+    LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
+  }
+
+  public void showLoading() {
+    ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
+  }
+
+  public void hideLoading() {
+    ProgressDialogUtils.hideProgressDialog();
   }
 
   protected abstract T initPresenter();

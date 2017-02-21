@@ -41,18 +41,23 @@ public class ProgressDialogUtils {
   }
 
   public static void hideProgressDialog() {
-    if (null != progressDialog && progressDialog.isShowing()) {
+    if (isShowing()) {
       progressDialog.dismiss();
     }
+    clearDialog();
   }
 
   public static void clearDialog() {
-    if (null != progressDialog && progressDialog.isShowing()) {
+    if (isShowing()) {
       progressDialog.dismiss();
     }
     if (null != progressDialog) {
       progressDialog = null;
     }
+  }
+
+  public static boolean isShowing() {
+    return null != progressDialog && progressDialog.isShowing();
   }
 
   public interface ProgressCancelListener {

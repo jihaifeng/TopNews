@@ -7,7 +7,7 @@ package com.jihf.topnews.http;
  * Data：2017-02-08 11:43
  * Mail：jihaifeng@raiyi.com
  */
-public class HttpResult<T> {
+public class BaseResponse<T> {
   /**
    * reason : 成功的返回
    * result : {...}

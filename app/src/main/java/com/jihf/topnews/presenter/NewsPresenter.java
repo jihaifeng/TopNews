@@ -25,26 +25,16 @@ public class NewsPresenter extends BasePresenter<NewsView> {
   }
 
   public void getData() {
-    HttpApiMethed.getJuheApiService()
-        //获取新闻头条数据
-        .getTopNews(JuHeConstants.KEY_NEWS, JuHeConstants.TYPE_TOP)
-        // 线程指定
-        .compose(RxSchedulersHelper.io_main())
-        // 生命周期绑定
-        .compose(getMvpView().bindToLifecycle())
-        // 数据预处理
-        .map(new HttpResultFuc<>())
-        // 订阅
-        .subscribe(new RxSubscriber<ResultBean>() {
+    HttpApiMethed.getTopNews(getMvpView(), new RxSubscriber<ResultBean>() {
 
-          @Override protected void onError(String msg) {
-            getMvpView().showError(msg);
-          }
+      @Override protected void onError(String message) {
+        getMvpView().showError(message);
+      }
 
-          @Override public void onNext(ResultBean bean) {
-            getMvpView().showData(bean);
-          }
-        });
+      @Override public void onNext(ResultBean bean) {
+        getMvpView().showData(bean);
+      }
+    });
   }
 
   public void getData2() {

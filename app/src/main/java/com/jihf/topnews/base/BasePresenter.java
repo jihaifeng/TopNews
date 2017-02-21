@@ -1,6 +1,8 @@
 package com.jihf.topnews.base;
 
 import android.content.Context;
+import com.jihf.androidutils.tools.LogUtils;
+import com.jihf.topnews.rx.RxBaseView;
 
 /**
  * Func： presenter基类
@@ -9,20 +11,25 @@ import android.content.Context;
  * Data：2017-02-07 10:37
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BasePresenter<V> {
+public abstract class BasePresenter<V extends RxBaseView> implements Presenter<V> {
   private V mvpView;
   protected Context context;
 
-  public void attachView(V view) {
+  @Override public void attachView(V view) {
+    LogUtils.i("BaseMvpActivity", "attachView: " + view);
     this.mvpView = view;
   }
 
-  public void detachView() {
+  @Override public void detachView() {
     this.mvpView = null;
   }
 
   public V getMvpView() {
     return mvpView;
+  }
+
+  public boolean isViewAttached() {
+    return mvpView != null;
   }
 
   public BasePresenter(Context context) {

@@ -18,7 +18,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 /**
  * Func：
@@ -129,7 +129,7 @@ public class RxHelper {
         // 自定义 okHttpClient
         .client(client)
         // json 解析器
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(FastJsonConverterFactory.create())
         // RxJava 适配器
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
     return retrofit.create(cls);

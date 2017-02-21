@@ -12,7 +12,6 @@ import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.NewsView;
 import com.jihf.topnews.model.news.ResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> implements NewsView {
 
@@ -29,10 +28,11 @@ public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> imple
   }
 
   @Override protected void initViewAndEvent() {
-    RxView.clicks(btnTopNews).throttleFirst(0, TimeUnit.SECONDS).subscribe(click -> {
+    RxView.clicks(btnTopNews).subscribe(click -> {
+      //showLoading();
       getPresenter().getData();
     });
-    RxView.clicks(btnTopGet).subscribe(click ->{
+    RxView.clicks(btnTopGet).subscribe(click -> {
       getPresenter().getData2();
     });
   }
@@ -42,11 +42,8 @@ public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> imple
   }
 
   @Override public void showData(ResultBean resultBean) {
+    //hideLoading();
     LogUtils.i(TAG, "showData: " + App.getInstance().getExternalCacheDir());
     Toast.makeText(this, resultBean.data.get(0).author_name, Toast.LENGTH_SHORT).show();
-  }
-
-  @Override public void showError(String msg) {
-    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
   }
 }

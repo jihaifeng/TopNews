@@ -16,5 +16,5 @@ public interface JuheApiService {
   //http://v.juhe.cn/toutiao/index?type=top&key=APPKEY
 
   @GET ("/toutiao/index")
-  Observable<HttpResult<ResultBean>> getTopNews(@Query ("key") String key,@Query ("type") String type);
+  Observable<BaseResponse<ResultBean>> getTopNews(@Query ("key") String key,@Query ("type") String type);
 }
