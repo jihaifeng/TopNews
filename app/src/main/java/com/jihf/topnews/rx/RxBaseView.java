@@ -1,6 +1,5 @@
 package com.jihf.topnews.rx;
 
-import com.trello.rxlifecycle.android.ActivityEvent;
 import rx.Observable;
 
 /**
@@ -12,8 +11,5 @@ import rx.Observable;
  */
 //依赖    compile 'com.trello:rxlifecycle:1.0' 和  compile 'com.trello:rxlifecycle-components:1.0'
 public interface RxBaseView {
-
   <T> Observable.Transformer<T, T> bindToLifecycle();
-
-  <T> Observable.Transformer<T, T> bindUntilEvent(ActivityEvent event);
 }

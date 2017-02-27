@@ -16,9 +16,9 @@ public class RxSchedulersHelper {
   public static <T> Observable.Transformer<T, T> io_main() {
     return tObservable -> tObservable
         // 指定 subscribe() 发生在 子 线程
-        .subscribeOn(Schedulers.newThread())
+        .subscribeOn(Schedulers.io())
         // 指定 unsubscribeOn() 发生在 子 线程
-        .unsubscribeOn(Schedulers.newThread())
+        .unsubscribeOn(Schedulers.io())
         // 指定 observeOn() 发生在 主 线程
         .observeOn(AndroidSchedulers.mainThread());
   }

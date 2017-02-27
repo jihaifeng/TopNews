@@ -6,6 +6,8 @@ import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
 
 public class RxBus {
+
+  private static final String TAG = RxBus.class.getSimpleName();
   private static volatile RxBus instance;
 
   private final Subject<Object, Object> bus;

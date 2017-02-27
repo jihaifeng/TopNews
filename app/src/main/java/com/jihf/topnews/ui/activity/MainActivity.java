@@ -12,8 +12,9 @@ import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.NewsView;
 import com.jihf.topnews.model.news.ResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
+import java.net.URLConnection;
 
-public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> implements NewsView {
+public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> implements NewsView{
 
   @BindView (R.id.btn_top_news) AppCompatButton btnTopNews;
   @BindView (R.id.iv_show) ImageView ivShow;
@@ -33,7 +34,9 @@ public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> imple
       getPresenter().getData();
     });
     RxView.clicks(btnTopGet).subscribe(click -> {
-      getPresenter().getData2();
+      String testUrl = "http://dldir1.qq.com/dlomg/chuanyue/kuaibao_536.apk";
+      String type = URLConnection.guessContentTypeFromName(testUrl);
+      LogUtils.i(TAG, "type: " + type);
     });
   }
 
@@ -46,4 +49,5 @@ public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> imple
     LogUtils.i(TAG, "showData: " + App.getInstance().getExternalCacheDir());
     Toast.makeText(this, resultBean.data.get(0).author_name, Toast.LENGTH_SHORT).show();
   }
+
 }

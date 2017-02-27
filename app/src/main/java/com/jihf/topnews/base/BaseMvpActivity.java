@@ -40,8 +40,6 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
     setContentView(getLayoutId());
     unbinder = ButterKnife.bind(this);
     setActivityStatus(this);
-    //Utils.init(this);
-    //LogUtils.setLogSwitch(BuildConfig.DEBUG);
     //presenter注入
     presenter = initPresenter();
     initViewAndEvent();
