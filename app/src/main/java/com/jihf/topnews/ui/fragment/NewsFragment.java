@@ -62,7 +62,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     hideLoading();
     sfNews.setRefreshing(false);
     if (null != resultBean && null != resultBean.data && resultBean.data.size() != 0) {
-      ryNewsAdapter.addDatas(resultBean.data);
+      ryNewsAdapter.replaceDatas(resultBean.data);
       Toast.makeText(getActivity(), resultBean.data.get(0).author_name, Toast.LENGTH_SHORT).show();
     }
   }

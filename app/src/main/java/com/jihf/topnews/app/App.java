@@ -9,6 +9,7 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.Utils;
 import com.jihf.topnews.BuildConfig;
+import com.jihf.topnews.http.HttpApiMethed;
 import com.jihf.topnews.utils.ScreenUtil;
 
 /**
@@ -47,6 +48,8 @@ public class App extends Application {
     //LeakCanary.install(this);
     //
     ScreenUtil.createInstance(this);
+    // http
+    HttpApiMethed.init();
   }
 
   public RxSharedPreferences getRxPreference() {

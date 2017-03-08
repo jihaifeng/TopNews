@@ -145,11 +145,11 @@ public class RxHelper {
     Interceptor cacheInterceptor = new Interceptor() {
       @Override public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        if (!NetWorkUtils.isConnected()) {
+        if (!NetWorkUtils.isConnected(App.getInstance())) {
           request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
         }
         Response response = chain.proceed(request);
-        if (NetWorkUtils.isConnected()) {
+        if (NetWorkUtils.isConnected(App.getInstance())) {
           // 有网络时 设置缓存超时时间0个小时
           int maxAge = 0;
           response.newBuilder().addHeader("Cache-Control", "public, max-age=" + maxAge).removeHeader("Pragma").build();

@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-import com.jihf.androidutils.tools.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +123,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
   }
 
   @Override public int getItemCount() {
-    LogUtils.i(TAG, "mDatas.size()：" + mDatas.size());
     return mHeaderView == null ? mDatas.size() : mDatas.size() + 1;
   }
 

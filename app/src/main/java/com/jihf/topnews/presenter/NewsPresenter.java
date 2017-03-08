@@ -21,7 +21,7 @@ public class NewsPresenter extends RxBasePresenter<NewsContract.View> implements
   }
 
   @Override public void getDataFromNet() {
-    HttpApiMethed.getTopNews(getmView(), new RxSubscriber<ResultBean>() {
+    HttpApiMethed.getTopNews(getmView()).subscribe(new RxSubscriber<ResultBean>() {
 
       @Override protected void onError(String message) {
         getmView().showError(message);

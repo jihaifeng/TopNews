@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.jihf.topnews.R;
 import com.jihf.topnews.model.news.NewsBean;
+import com.jihf.topnews.utils.DefaultBgUtils;
 import com.jihf.topnews.view.recyclerview.BaseRecyclerAdapter;
 
 /**
@@ -46,7 +47,13 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.tvFromOne.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
           viewHolder.tvTimeOne.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
-            Glide.with(context).load(data.thumbnail_pic_s).into(viewHolder.ivRight);
+            Glide.with(context)
+                .load(data.thumbnail_pic_s)
+                .fitCenter()
+                .dontAnimate()
+                .error(DefaultBgUtils.provideIcon())
+                .placeholder(DefaultBgUtils.provideIcon())
+                .into(viewHolder.ivRight);
           }
         } else {
           viewHolder.viewRootOne.setVisibility(View.GONE);
@@ -55,13 +62,28 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.tvFromThree.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
           viewHolder.tvTimeThree.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
-            Glide.with(context).load(data.thumbnail_pic_s).into(viewHolder.ivBottomLeft);
+            Glide.with(context)
+                .load(data.thumbnail_pic_s)
+                .dontAnimate()
+                .error(DefaultBgUtils.provideIcon())
+                .placeholder(DefaultBgUtils.provideIcon())
+                .into(viewHolder.ivBottomLeft);
           }
           if (!TextUtils.isEmpty(data.thumbnail_pic_s02)) {
-            Glide.with(context).load(data.thumbnail_pic_s02).into(viewHolder.ivBottomCenter);
+            Glide.with(context)
+                .load(data.thumbnail_pic_s02)
+                .dontAnimate()
+                .error(DefaultBgUtils.provideIcon())
+                .placeholder(DefaultBgUtils.provideIcon())
+                .into(viewHolder.ivBottomCenter);
           }
           if (!TextUtils.isEmpty(data.thumbnail_pic_s03)) {
-            Glide.with(context).load(data.thumbnail_pic_s03).into(viewHolder.ivBottomRight);
+            Glide.with(context)
+                .load(data.thumbnail_pic_s03)
+                .dontAnimate()
+                .error(DefaultBgUtils.provideIcon())
+                .placeholder(DefaultBgUtils.provideIcon())
+                .into(viewHolder.ivBottomRight);
           }
         }
       }
