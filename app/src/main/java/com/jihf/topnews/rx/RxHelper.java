@@ -102,7 +102,6 @@ public class RxHelper {
     //  new JavaNetCookieJar() 需要依赖   compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
     builder.cookieJar(new JavaNetCookieJar(cookieManager));
 
-
     //设置log信息拦截器
     if (BuildConfig.DEBUG) {
       HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();

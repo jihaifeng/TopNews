@@ -9,6 +9,7 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.Utils;
 import com.jihf.topnews.BuildConfig;
+import com.jihf.topnews.utils.ScreenUtil;
 
 /**
  * Func：
@@ -44,7 +45,8 @@ public class App extends Application {
     LogUtils.setLogSwitch(BuildConfig.DEBUG);
     //内存泄漏检测
     //LeakCanary.install(this);
-
+    //
+    ScreenUtil.createInstance(this);
   }
 
   public RxSharedPreferences getRxPreference() {

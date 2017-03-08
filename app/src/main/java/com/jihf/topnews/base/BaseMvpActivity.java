@@ -12,8 +12,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
-import com.jihf.swipbackhelper.SwipeBackHelper;
 import com.jihf.topnews.rx.RxBaseView;
+import com.jihf.topnews.rx.RxPresenter;
 import com.jihf.topnews.utils.ProgressDialogUtils;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -24,8 +24,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * Data：2017-02-07 09:08
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresenter<V>> extends RxAppCompatActivity
-    implements BaseView {
+public abstract class BaseMvpActivity<T extends RxPresenter> extends RxAppCompatActivity implements RxBaseView {
   public static String TAG = BaseMvpActivity.class.getSimpleName().trim();
   private Context mBaseContext;
   private Activity mCurrentActivity;
@@ -34,8 +33,6 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    //初始化滑动返回
-    setSwipeBackPage(stopSwipeBack());
     //布局注入
     setContentView(getLayoutId());
     unbinder = ButterKnife.bind(this);
@@ -45,15 +42,6 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
     initViewAndEvent();
     mBaseContext = this;
     LogUtils.i(TAG, "--------onCreate--------");
-  }
-
-  private void setSwipeBackPage(boolean b) {
-    SwipeBackHelper.onCreate(this);
-    SwipeBackHelper.getCurrentPage(this)
-        .setSwipeBackEnable(!b)
-        .setSwipeSensitivity(0.5f)
-        .setSwipeRelateEnable(true)
-        .setSwipeRelateOffset(300);
   }
 
   @Override protected void onStart() {
@@ -69,9 +57,9 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
   @Override protected void onResume() {
     super.onResume();
     if (null != presenter) {
-      presenter.attachView((V) this);
+      presenter.attachView(this);
     }
-    LogUtils.i(TAG, "-------onResume------" + (V) this);
+    LogUtils.i(TAG, "-------onResume------" + this);
   }
 
   @Override protected void onStop() {
@@ -87,7 +75,6 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
     if (null != unbinder) {
       unbinder.unbind();
     }
-    SwipeBackHelper.onDestroy(this);
     // 在Activity栈中移除Activity
     ActivityUtils.getInstance().removeActivity(this);
     LogUtils.i(TAG, "-------onDestroy------");
@@ -102,11 +89,6 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
     super.finish();
     LogUtils.i(TAG, "-------finish------");
     ActivityUtils.getInstance().removeActivity(this);
-  }
-
-  @Override protected void onPostCreate(Bundle savedInstanceState) {
-    super.onPostCreate(savedInstanceState);
-    SwipeBackHelper.onPostCreate(this);
   }
 
   /**
@@ -198,6 +180,4 @@ public abstract class BaseMvpActivity<V extends RxBaseView, T extends BasePresen
   protected abstract int getLayoutId();
 
   protected abstract void initViewAndEvent();
-
-  protected abstract boolean stopSwipeBack();
 }

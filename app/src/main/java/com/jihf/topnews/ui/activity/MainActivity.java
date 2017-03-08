@@ -1,27 +1,17 @@
 package com.jihf.topnews.ui.activity;
 
-import android.support.v7.widget.AppCompatButton;
-import android.widget.ImageView;
-import android.widget.Toast;
-import butterknife.BindView;
-import com.jakewharton.rxbinding.view.RxView;
+import android.support.v4.app.FragmentTransaction;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
-import com.jihf.topnews.app.App;
 import com.jihf.topnews.base.BaseMvpActivity;
-import com.jihf.topnews.contract.NewsView;
-import com.jihf.topnews.model.news.ResultBean;
-import com.jihf.topnews.presenter.NewsPresenter;
-import java.net.URLConnection;
+import com.jihf.topnews.contract.MainContract;
+import com.jihf.topnews.presenter.MainPresenter;
+import com.jihf.topnews.ui.fragment.NewsFragment;
 
-public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> implements NewsView{
+public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
 
-  @BindView (R.id.btn_top_news) AppCompatButton btnTopNews;
-  @BindView (R.id.iv_show) ImageView ivShow;
-  @BindView (R.id.btn_top_get) AppCompatButton btnTopGet;
-
-  @Override protected NewsPresenter initPresenter() {
-    return new NewsPresenter(this);
+  @Override protected MainPresenter initPresenter() {
+    return new MainPresenter(this);
   }
 
   @Override protected int getLayoutId() {
@@ -29,25 +19,19 @@ public class MainActivity extends BaseMvpActivity<NewsView, NewsPresenter> imple
   }
 
   @Override protected void initViewAndEvent() {
-    RxView.clicks(btnTopNews).subscribe(click -> {
-      //showLoading();
-      getPresenter().getData();
-    });
-    RxView.clicks(btnTopGet).subscribe(click -> {
-      String testUrl = "http://dldir1.qq.com/dlomg/chuanyue/kuaibao_536.apk";
-      String type = URLConnection.guessContentTypeFromName(testUrl);
-      LogUtils.i(TAG, "type: " + type);
-    });
+    NewsFragment newsFragment = new NewsFragment();
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    fragmentTransaction.replace(R.id.id_content,newsFragment);
+    fragmentTransaction.commit();
+    LogUtils.i(TAG,"newsFragment：" + newsFragment);
   }
 
-  @Override protected boolean stopSwipeBack() {
-    return false;
+  @Override public void showUpdateDialog(String newVersion) {
+    // 新版本更新dialog
   }
 
-  @Override public void showData(ResultBean resultBean) {
-    //hideLoading();
-    LogUtils.i(TAG, "showData: " + App.getInstance().getExternalCacheDir());
-    Toast.makeText(this, resultBean.data.get(0).author_name, Toast.LENGTH_SHORT).show();
-  }
+  @Override public void startDownload() {
+    // 下载新版本
 
+  }
 }

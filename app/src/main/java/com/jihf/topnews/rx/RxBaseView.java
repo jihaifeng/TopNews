@@ -12,4 +12,6 @@ import rx.Observable;
 //依赖    compile 'com.trello:rxlifecycle:1.0' 和  compile 'com.trello:rxlifecycle-components:1.0'
 public interface RxBaseView {
   <T> Observable.Transformer<T, T> bindToLifecycle();
+
+  void showError(String msg);
 }

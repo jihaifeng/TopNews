@@ -1,10 +1,10 @@
-package com.jihf.topnews.http;
+package com.jihf.topnews.model;
 
 /**
- * Func：类似数据结构的 数据请求结果包装类
+ * Func：
  * Desc:
  * Author：jihf
- * Data：2017-02-08 11:43
+ * Data：2017-02-28 16:34
  * Mail：jihaifeng@raiyi.com
  */
 public class BaseResponse<T> {

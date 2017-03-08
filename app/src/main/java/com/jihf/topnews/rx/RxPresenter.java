@@ -1,6 +1,4 @@
-package com.jihf.topnews.base;
-
-import com.jihf.topnews.rx.RxBaseView;
+package com.jihf.topnews.rx;
 
 /**
  * Func：
@@ -9,7 +7,7 @@ import com.jihf.topnews.rx.RxBaseView;
  * Data：2017-02-17 16:50
  * Mail：jihaifeng@raiyi.com
  */
-public interface Presenter<V extends RxBaseView> {
+public interface RxPresenter<V extends RxBaseView> {
   void attachView(V view);
 
   void detachView();
