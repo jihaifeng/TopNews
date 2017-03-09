@@ -41,7 +41,7 @@ dependencies {
   compile 'com.android.support:appcompat-v7:25.1.1'
   testCompile 'junit:junit:4.12'
   // 工具类
-  compile 'com.jihf.androidutils:androidutils:1.0.0'
+  compile 'com.jihf.utils:androidutils:1.0.0'
   // 滑动返回
   compile 'com.jihf.swipebackdemo:swipbackhelper:1.0.0'
   // butterKnife注解

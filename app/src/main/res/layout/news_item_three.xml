@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
 
@@ -12,40 +13,40 @@
       android:textSize="@dimen/sp_15"/>
 
   <LinearLayout
-      android:layout_marginTop="@dimen/dp_5"
       android:id="@+id/ll_image_bottom"
       android:layout_width="match_parent"
-      android:layout_height="80dp">
+      android:layout_height="80dp"
+      android:layout_marginTop="@dimen/dp_5">
 
     <ImageView
         android:id="@+id/iv_bottom_left"
-        android:scaleType="fitXY"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:scaleType="fitXY"/>
 
     <ImageView
-        android:scaleType="fitXY"
         android:id="@+id/iv_bottom_center"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:scaleType="fitXY"/>
 
     <ImageView
-        android:scaleType="fitXY"
         android:id="@+id/iv_bottom_right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="2dp"/>
+        android:padding="2dp"
+        android:scaleType="fitXY"/>
   </LinearLayout>
 
   <LinearLayout
-      android:layout_marginTop="@dimen/dp_5"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/dp_5">
 
     <TextView
         android:id="@+id/tv_from_three"

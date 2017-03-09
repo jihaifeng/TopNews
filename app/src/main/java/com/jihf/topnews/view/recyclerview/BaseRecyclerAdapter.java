@@ -22,19 +22,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
   public static final int TYPE_NORMAL = 1;
   private List<T> mDatas = new ArrayList<>();
   private View mHeaderView;
-  private OnItemClickListener mListener;
   protected Context context;
 
   public BaseRecyclerAdapter(Context context) {
     this.context = context;
-  }
-
-  public interface OnItemClickListener<T> {
-    void onItemClick(int position, T data);
-  }
-
-  public void setOnItemClickListener(OnItemClickListener li) {
-    mListener = li;
   }
 
   public void setHeaderView(View headerView) {
@@ -86,13 +77,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     final int pos = getRealPosition(viewHolder);
     final T data = mDatas.get(pos);
     onBind(viewHolder, pos, data);
-    if (mListener != null) {
-      viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-          mListener.onItemClick(pos, data);
-        }
-      });
-    }
+    viewHolder.itemView.setOnClickListener(v -> {
+      onItemClick(pos, data);
+    });
+    viewHolder.itemView.setOnLongClickListener(v -> {
+      OnItemLongClickListener(pos, data);
+      return false;
+    });
   }
 
   @Override public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -129,4 +120,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
   public abstract RecyclerView.ViewHolder onCreate(ViewGroup parent, final int viewType);
 
   public abstract void onBind(RecyclerView.ViewHolder vh, int pos, T data);
+
+  // item 点击
+  protected abstract void onItemClick(int position, T data);
+
+  // item 长按
+  protected abstract void OnItemLongClickListener(int position, T data);
 }

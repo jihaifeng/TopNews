@@ -16,6 +16,7 @@ import com.jihf.topnews.R;
 import com.jihf.topnews.model.news.NewsBean;
 import com.jihf.topnews.utils.DefaultBgUtils;
 import com.jihf.topnews.view.recyclerview.BaseRecyclerAdapter;
+import com.jihf.topnews.webview.activity.WebSiteActivity;
 
 /**
  * Func：
@@ -87,6 +88,11 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           }
         }
       }
+      //setOnItemClickListener(new OnItemClickListener<NewsBean>() {
+      //  @Override public void onItemClick(int position, NewsBean data) {
+      //    WebSiteActivity.launch(context,data.title,data.url);
+      //  }
+      //});
     }
   }
 
@@ -109,5 +115,13 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
       super(view);
       ButterKnife.bind(this, view);
     }
+  }
+
+  @Override protected void onItemClick(int position, NewsBean data) {
+    WebSiteActivity.launch(context, data.title, data.url);
+  }
+
+  @Override protected void OnItemLongClickListener(int position, NewsBean data) {
+
   }
 }
