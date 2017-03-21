@@ -21,10 +21,11 @@ import com.trello.rxlifecycle.components.support.RxFragment;
 public abstract class BaseSimpleFragment extends RxFragment {
   public static String TAG = BaseSimpleFragment.class.getSimpleName().trim();
   private Unbinder unbinder;
+  public View view;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(getLayoutId(), container, false);
+    view = inflater.inflate(getLayoutId(), container, false);
     ViewGroup parent = (ViewGroup) view.getParent();
     if (null != parent) {
       parent.removeView(view);

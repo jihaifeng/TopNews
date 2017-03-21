@@ -2,10 +2,11 @@ package com.jihf.topnews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
 import com.jihf.topnews.utils.ProgressDialogUtils;
@@ -43,7 +44,7 @@ public abstract class BaseMvpFragment<T extends RxPresenter> extends BaseSimpleF
 
   @Override public void showError(String msg) {
     hideLoading();
-    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    Snackbar.make(view, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
   }
 
   public void showLoading() {

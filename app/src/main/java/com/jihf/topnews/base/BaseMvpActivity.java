@@ -2,8 +2,8 @@ package com.jihf.topnews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
-import android.widget.Toast;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
@@ -50,7 +50,7 @@ public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleA
 
   @Override public void showError(String msg) {
     hideLoading();
-    Toast.makeText(this, TextUtils.isEmpty(msg) ? "数据异常" : msg, Toast.LENGTH_SHORT).show();
+    Snackbar.make(contentFrame,TextUtils.isEmpty(msg) ? "数据异常" : msg,Snackbar.LENGTH_SHORT).show();
     LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
   }
 
