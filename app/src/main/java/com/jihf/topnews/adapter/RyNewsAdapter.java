@@ -88,11 +88,6 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           }
         }
       }
-      //setOnItemClickListener(new OnItemClickListener<NewsBean>() {
-      //  @Override public void onItemClick(int position, NewsBean data) {
-      //    WebSiteActivity.launch(context,data.title,data.url);
-      //  }
-      //});
     }
   }
 

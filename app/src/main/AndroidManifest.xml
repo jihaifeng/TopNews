@@ -19,7 +19,7 @@
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
       android:supportsRtl="true"
-      android:theme="@style/AppTheme"
+      android:theme="@style/MyAppTheme"
       >
     <activity android:name=".ui.activity.MainActivity">
       <intent-filter>
@@ -28,8 +28,20 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <!--浏览器页面-->
     <activity
         android:name=".webview.activity.WebSiteActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        />
+    <!--测试页面-->
+    <activity
+        android:name=".test.TestActivity"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        />
+    <activity
+        android:name=".test.OtherActivity"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
         />

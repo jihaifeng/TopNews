@@ -1,11 +1,18 @@
 <resources>
 
   <!-- Base application theme. -->
-  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- Customize your theme here. -->
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
+  </style>
+
+  <style name="MyAppTheme" parent="AppTheme">
+    //背景透明，不设滑动关闭时背景就是黑的。
+    <item name="android:windowIsTranslucent">true</item>
+    //Activity右滑进出的动画，觉得这个不好看随便换成自己的
+    <item name="android:windowAnimationStyle">@style/SlideRightAnimation</item>
   </style>
 
   <!-- 自定义进度条 -->
@@ -17,4 +24,54 @@
     <item name="android:progressDrawable">@drawable/web_progress</item>
   </style>
 
+  <!--自定义ratingBar-->
+  <declare-styleable name="RatingBar">
+    <!--尺寸值-->
+    <attr format="dimension" name="starImageSize"/>
+    <!--星星间距-->
+    <attr format="dimension" name="starPadding"/>
+    <!--星星总数-->
+    <attr format="integer" name="starCount"/>
+    <!--空白的星星资源文件值-->
+    <attr format="reference" name="starEmpty"/>
+    <!--满星资源文件值-->
+    <attr format="reference" name="starFill"/>
+    <!--半星资源文件值-->
+    <attr format="reference" name="starHalf"/>
+    <!--是否可点击boolean值-->
+    <attr format="boolean" name="clickable"/>
+    <!--当前进度float值-->
+    <attr format="float" name="starStep"/>
+    <!--每次进度方式的值，整星还是半星-->
+    <attr name="stepSize">
+      <enum name="Half" value="0"/>
+      <enum name="Full" value="1"/>
+    </attr>
+  </declare-styleable>
+
+  <style name="style_ratingbar_parent">
+    <item name="stepSize">Half</item>
+    <item name="starEmpty">@mipmap/stars_gray</item>
+    <item name="starHalf">@mipmap/stars_half</item>
+    <item name="starFill">@mipmap/stars_yellow</item>
+
+  </style>
+
+  <style name="style_ratingbar_unclick" parent="style_ratingbar_parent">
+    <item name="clickable">false</item>
+    <item name="starStep">0.5</item>
+    <item name="starCount">5</item>
+    <item name="starImageSize">@dimen/dp_12</item>
+    <item name="starPadding">@dimen/dp_4</item>
+
+  </style>
+
+  <style name="style_ratingbar_clickable" parent="style_ratingbar_parent">
+
+    <item name="clickable">true</item>
+    <item name="starStep">0.5</item>
+    <item name="starCount">5</item>
+    <item name="starImageSize">@dimen/dp_12</item>
+    <item name="starPadding">@dimen/dp_4</item>
+  </style>
 </resources>

@@ -23,6 +23,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
   private List<T> mDatas = new ArrayList<>();
   private View mHeaderView;
   protected Context context;
+  private int itemShowNum = -1;
 
   public BaseRecyclerAdapter(Context context) {
     this.context = context;
@@ -114,7 +115,24 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
   }
 
   @Override public int getItemCount() {
-    return mHeaderView == null ? mDatas.size() : mDatas.size() + 1;
+    int dataLength;
+    if (mHeaderView == null) {
+      dataLength = mDatas.size();
+    } else {
+      dataLength = mDatas.size() + 1;
+    }
+    if (itemShowNum > 0 && itemShowNum < dataLength) {
+      dataLength = itemShowNum;
+    }
+    return dataLength;
+  }
+
+  public void setNumToShow(int num) {
+    if (num > 0) {
+      this.itemShowNum = num;
+    } else {
+      this.itemShowNum = -1;
+    }
   }
 
   public abstract RecyclerView.ViewHolder onCreate(ViewGroup parent, final int viewType);

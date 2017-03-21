@@ -11,7 +11,7 @@ import android.webkit.WebView;
  * Data：2017-03-09 09:28
  * Mail：jihaifeng@raiyi.com
  */
-public class MyWebView extends WebView{
+public class MyWebView extends WebView {
   public MyWebView(Context context) {
     super(context);
   }
@@ -23,5 +23,4 @@ public class MyWebView extends WebView{
   public MyWebView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
-
 }

@@ -4,14 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
+import com.jihf.swipbackhelper.SwipeBackHelper;
+import com.jihf.topnews.R;
 import com.jihf.topnews.utils.ProgressDialogUtils;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
  * Func：
@@ -20,8 +28,12 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * Data：2017-03-09 09:32
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseSimpleActivity extends RxAppCompatActivity {
+public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
   public static String TAG = BaseSimpleActivity.class.getSimpleName().trim();
+
+  @BindView (R.id.content_frame) FrameLayout contentFrame;
+  @BindView (R.id.toolbar) Toolbar toolbar;
+
   private Context mBaseContext;
   private Activity mCurrentActivity;
   private Unbinder unbinder;
@@ -34,6 +46,7 @@ public abstract class BaseSimpleActivity extends RxAppCompatActivity {
     setActivityStatus(this);
     initViewAndEvent();
     mBaseContext = this;
+    setToolBar();
     LogUtils.i(TAG, "--------onCreate--------");
   }
 
@@ -57,6 +70,11 @@ public abstract class BaseSimpleActivity extends RxAppCompatActivity {
     LogUtils.i(TAG, "-------onStop------");
   }
 
+  @Override protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    SwipeBackHelper.onPostCreate(this);
+  }
+
   @Override protected void onDestroy() {
     super.onDestroy();
     if (null != unbinder) {
@@ -76,6 +94,39 @@ public abstract class BaseSimpleActivity extends RxAppCompatActivity {
     super.finish();
     LogUtils.i(TAG, "-------finish------");
     ActivityUtils.getInstance().removeActivity(this);
+  }
+
+  @Override public void setContentView(@LayoutRes int layoutResID) {
+    View view = getLayoutInflater().inflate(R.layout.activity_base, null);
+    FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.content_frame);
+    // 将传入的layout加载到activity_base的content_frame里面
+    getLayoutInflater().inflate(layoutResID, frameLayout, true);
+    super.setContentView(view);
+  }
+
+  protected void setToolBar() {
+    toolbar.setTitleTextColor(Color.WHITE);
+    setSupportActionBar(toolbar);
+    // 设置返回键可用
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  }
+
+  ;
+
+  public Toolbar getToolBar() {
+    return toolbar;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        if (canGoBack()) {
+          finish();
+        }
+        break;
+    }
+    return true;
   }
 
   /**
@@ -115,30 +166,45 @@ public abstract class BaseSimpleActivity extends RxAppCompatActivity {
     return mCurrentActivity;
   }
 
+  @Override protected boolean initSwipeBackEnable() {
+    return true;
+  }
+
   /**
    * 无参数的跳转
    *
-   * @param from 起始Activity
    * @param to 目标Activity
    */
-  public void startActivity(Context from, Class to) {
-    Intent intent = new Intent();
-    intent.setClass(from, to);
-    startActivity(intent);
+  public void jumpTo(Class to) {
+    jumpTo(to, null);
   }
 
   /**
    * 带参数的跳转
    *
-   * @param from 起始Activity
    * @param to 目标Activity
    * @param bundle 参数
    */
-  public void startActivityWithBundle(Context from, Class to, Bundle bundle) {
+  public void jumpTo(Class to, Bundle bundle) {
     Intent intent = new Intent();
-    intent.putExtras(bundle);
-    intent.setClass(from, to);
-    startActivity(intent);
+    intent.setClass(mCurrentActivity, to);
+    if (null != bundle) {
+      intent.putExtras(bundle);
+    }
+    mCurrentActivity.startActivity(intent);
+  }
+
+  public void jumpToWithResultCode(Class to, Bundle bundle, int resultCode) {
+    Intent intent = new Intent();
+    intent.setClass(mCurrentActivity, to);
+    if (null != bundle) {
+      intent.putExtras(bundle);
+    }
+    mCurrentActivity.startActivityForResult(intent, resultCode);
+  }
+
+  public void jumpToWithResultCode(Class to, int resultCode) {
+    jumpToWithResultCode(to, null, resultCode);
   }
 
   public void showLoading() {
@@ -148,7 +214,6 @@ public abstract class BaseSimpleActivity extends RxAppCompatActivity {
   public void hideLoading() {
     ProgressDialogUtils.hideProgressDialog();
   }
-
 
   protected abstract int getLayoutId();
 

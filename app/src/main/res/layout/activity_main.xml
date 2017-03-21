@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
+    android:id="@+id/drawer_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
 
   <FrameLayout
-      android:id="@+id/id_content"
+      android:id="@+id/fragment_content"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       />
 
-  <!--  <fragment
-        android:name="com.jihf.topnews.ui.fragment.NewsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>-->
-
-</LinearLayout>
+  <include
+      layout="@layout/drawerlayout_left"
+      android:id="@+id/drawer_content"/>
+</android.support.v4.widget.DrawerLayout>

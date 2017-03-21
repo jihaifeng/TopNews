@@ -1,14 +1,28 @@
 package com.jihf.topnews.ui.activity;
 
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import butterknife.BindView;
+import butterknife.OnClick;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.MainContract;
 import com.jihf.topnews.presenter.MainPresenter;
+import com.jihf.topnews.test.TestActivity;
 import com.jihf.topnews.ui.fragment.NewsFragment;
 
 public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
+
+  @BindView (R.id.fragment_content) FrameLayout idContent;
+  @BindView (R.id.drawer_root) DrawerLayout drawerRoot;
+  @BindView (R.id.btn_test) Button btnTest;
 
   @Override protected MainPresenter initPresenter() {
     return new MainPresenter(this);
@@ -19,11 +33,22 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
   }
 
   @Override protected void initViewAndEvent() {
+
+    getToolBar().setTitle("新闻");
+    ActionBarDrawerToggle drawerToggle =
+        new ActionBarDrawerToggle(this, drawerRoot, getToolBar(), R.string.drawer_open, R.string.drawer_close);
+    drawerToggle.syncState();
+    drawerRoot.addDrawerListener(drawerToggle);
+    //将侧边栏顶部延伸至status bar
+    drawerRoot.setFitsSystemWindows(true);
+    //将主页面顶部延伸至status bar
+    drawerRoot.setClipToPadding(false);
+
     NewsFragment newsFragment = new NewsFragment();
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.id_content,newsFragment);
+    fragmentTransaction.replace(R.id.fragment_content, newsFragment);
     fragmentTransaction.commit();
-    LogUtils.i(TAG,"newsFragment：" + newsFragment);
+    LogUtils.i(TAG, "newsFragment：" + newsFragment);
   }
 
   @Override public void showUpdateDialog(String newVersion) {
@@ -33,5 +58,41 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
   @Override public void startDownload() {
     // 下载新版本
 
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
+          drawerRoot.closeDrawer(GravityCompat.START);
+        } else {
+          drawerRoot.openDrawer(GravityCompat.START);
+        }
+        break;
+    }
+    return true;
+  }
+
+  @OnClick ({ R.id.btn_test }) public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.btn_test:
+        jumpTo(TestActivity.class);
+        if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
+          drawerRoot.closeDrawer(GravityCompat.START);
+        }
+        break;
+    }
+  }
+
+  @Override public void onBackPressed() {
+    if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
+      drawerRoot.closeDrawer(GravityCompat.START);
+    } else {
+      super.onBackPressed();
+    }
+  }
+
+  @Override protected boolean initSwipeBackEnable() {
+    return false;
   }
 }

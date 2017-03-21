@@ -47,7 +47,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
 
   private void initAdapter() {
     DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-    decoration.setDividerSize(ScreenUtil.dip2px((float) 0.3));
+    decoration.setDividerSize(ScreenUtil.dip2px((float) 0.5));
     ryNews.removeItemDecoration(decoration);
     ryNews.addItemDecoration(decoration);
     LinearLayoutManagerPlus linearLayoutManagerPlus = new LinearLayoutManagerPlus(getActivity());

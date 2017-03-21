@@ -43,6 +43,7 @@ public class WebSiteActivity extends BaseSimpleActivity {
         webview.loadUrl(url);
       }
     }
+    getToolBar().setTitle(TextUtils.isEmpty(title) ? "详情" : title);
   }
 
   public static void launch(Context context, String title, String url) {
