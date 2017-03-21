@@ -24,10 +24,10 @@ public class HttpApiMethed {
     juheApiService = rxHelper.getApiService(UrlConstants.URL_TOP_NEWS, JuheApiService.class);
   }
 
-  public static Observable<ResultBean> getTopNews(RxBaseView rxBaseView) {
+  public static Observable<ResultBean> getTopNews(String key, RxBaseView rxBaseView) {
     return juheApiService
         //获取新闻头条数据
-        .getTopNews(JuHeConstants.KEY_NEWS, JuHeConstants.TYPE_TOP)
+        .getTopNews(JuHeConstants.KEY_NEWS, key)
         // 线程指定
         .compose(RxSchedulersHelper.io_main())
         // 生命周期绑定

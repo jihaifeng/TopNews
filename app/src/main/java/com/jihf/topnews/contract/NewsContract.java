@@ -14,6 +14,8 @@ import com.jihf.topnews.rx.RxPresenter;
 public interface NewsContract {
   interface View extends RxBaseView {
     void showData(ResultBean resultBean);
+
+    String getType();
   }
 
   interface Presenter extends RxPresenter<View> {

@@ -16,7 +16,7 @@ import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.MainContract;
 import com.jihf.topnews.presenter.MainPresenter;
 import com.jihf.topnews.test.TestActivity;
-import com.jihf.topnews.ui.fragment.NewsFragment;
+import com.jihf.topnews.ui.fragment.MainFragment;
 
 public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
 
@@ -44,11 +44,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     //将主页面顶部延伸至status bar
     drawerRoot.setClipToPadding(false);
 
-    NewsFragment newsFragment = new NewsFragment();
+    MainFragment mainFragment = new MainFragment();
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.fragment_content, newsFragment);
+    fragmentTransaction.replace(R.id.fragment_content, mainFragment);
     fragmentTransaction.commit();
-    LogUtils.i(TAG, "newsFragment：" + newsFragment);
+    LogUtils.i(TAG, "mainFragment：" + mainFragment);
   }
 
   @Override public void showUpdateDialog(String newVersion) {

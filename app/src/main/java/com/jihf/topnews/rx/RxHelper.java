@@ -5,6 +5,7 @@ import com.jihf.topnews.app.App;
 import com.jihf.topnews.utils.NetWorkUtils;
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.concurrent.TimeUnit;
@@ -108,6 +109,15 @@ public class RxHelper {
       logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
       builder.addInterceptor(logInterceptor);
     }
+
+    builder.addInterceptor(chain -> {
+
+      if (NetWorkUtils.isNetworkAvailable(App.getInstance())) {
+        return chain.proceed(chain.request());
+      } else {
+        throw new ConnectException("网络异常");
+      }
+    });
 
     //设置超时
     builder.connectTimeout(10, TimeUnit.SECONDS);

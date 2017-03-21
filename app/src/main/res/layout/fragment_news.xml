@@ -4,11 +4,24 @@
     android:id="@+id/sf_news"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/white">
 
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/ry_news"
+  <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="match_parent"
+      android:gravity="center"
+
+      android:orientation="vertical">
+
+    <include
+        layout="@layout/error_view"
+        android:visibility="gone"
+        android:id="@+id/news_error_view"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ry_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+  </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>
