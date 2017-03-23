@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.model.news.NewsBean;
 import com.jihf.topnews.utils.DefaultBgUtils;
@@ -48,13 +49,7 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.tvFromOne.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
           viewHolder.tvTimeOne.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
-            Glide.with(context)
-                .load(data.thumbnail_pic_s)
-                .fitCenter()
-                .dontAnimate()
-                .error(DefaultBgUtils.provideIcon())
-                .placeholder(DefaultBgUtils.provideIcon())
-                .into(viewHolder.ivRight);
+            loadImage(data.thumbnail_pic_s, viewHolder.ivRight);
           }
         } else {
           viewHolder.viewRootOne.setVisibility(View.GONE);
@@ -63,32 +58,36 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.tvFromThree.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
           viewHolder.tvTimeThree.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
-            Glide.with(context)
-                .load(data.thumbnail_pic_s)
-                .dontAnimate()
-                .error(DefaultBgUtils.provideIcon())
-                .placeholder(DefaultBgUtils.provideIcon())
-                .into(viewHolder.ivBottomLeft);
+            loadImage(data.thumbnail_pic_s, viewHolder.ivBottomLeft);
           }
           if (!TextUtils.isEmpty(data.thumbnail_pic_s02)) {
-            Glide.with(context)
-                .load(data.thumbnail_pic_s02)
-                .dontAnimate()
-                .error(DefaultBgUtils.provideIcon())
-                .placeholder(DefaultBgUtils.provideIcon())
-                .into(viewHolder.ivBottomCenter);
+            loadImage(data.thumbnail_pic_s02, viewHolder.ivBottomCenter);
           }
           if (!TextUtils.isEmpty(data.thumbnail_pic_s03)) {
-            Glide.with(context)
-                .load(data.thumbnail_pic_s03)
-                .dontAnimate()
-                .error(DefaultBgUtils.provideIcon())
-                .placeholder(DefaultBgUtils.provideIcon())
-                .into(viewHolder.ivBottomRight);
+            loadImage(data.thumbnail_pic_s03, viewHolder.ivBottomRight);
           }
         }
       }
     }
+  }
+
+  private void loadImage(String thumbnail_pic, ImageView view) {
+    Glide.with(context)
+        .load(thumbnail_pic)
+        .fitCenter()
+        .dontAnimate()
+        .error(DefaultBgUtils.provideIcon())
+        .placeholder(DefaultBgUtils.provideIcon())
+        .into(view);
+  }
+
+  public void setScrolling(boolean isScrolling) {
+    if (isScrolling) {
+      Glide.with(context).pauseRequests();
+    } else {
+      Glide.with(context).resumeRequests();
+    }
+    LogUtils.i(TAG, "setScrolling: " + isScrolling);
   }
 
   static class MyViewHolder extends RecyclerView.ViewHolder {

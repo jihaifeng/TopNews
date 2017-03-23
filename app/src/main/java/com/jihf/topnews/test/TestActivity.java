@@ -22,6 +22,7 @@ import java.util.List;
 public class TestActivity extends BaseSimpleActivity implements View.OnClickListener {
   @BindView (R.id.animation_sp) Spinner animationSp;
   @BindView (R.id.other_button) Button otherButton;
+  @BindView (R.id.btn_getAd) Button btnGetAd;
 
   @Override protected int getLayoutId() {
     return R.layout.activity_test;

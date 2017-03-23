@@ -22,6 +22,8 @@ import com.jihf.topnews.utils.ScreenUtil;
 import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
 import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
 
+import static com.jihf.topnews.R.id.ry_news;
+
 /**
  * Func：
  * Desc:
@@ -34,7 +36,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
 
   @BindView (R.id.tv_error_msg) TextView tvErrorMsg;
   @BindView (R.id.news_error_view) View errorView;
-  @BindView (R.id.ry_news) RecyclerView ryNews;
+  @BindView (ry_news) RecyclerView ryNews;
   @BindView (R.id.sf_news) SwipeRefreshLayout sfNews;
   @BindView (R.id.iv_news_refresh) ImageView ivNewsRefresh;
 
@@ -82,8 +84,14 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     linearLayoutManagerPlus.setOrientation(LinearLayoutManager.VERTICAL);
     ryNews.setLayoutManager(linearLayoutManagerPlus);
     //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
+    ryNews.setHasFixedSize(true);
     ryNewsAdapter = new RyNewsAdapter(getActivity());
     ryNews.setAdapter(ryNewsAdapter);
+    ryNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        ryNewsAdapter.setScrolling(newState != RecyclerView.SCROLL_STATE_IDLE);
+      }
+    });
   }
 
   @Override public void showData(ResultBean resultBean) {

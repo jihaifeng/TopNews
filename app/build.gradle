@@ -64,7 +64,6 @@ dependencies {
   compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
   // okHttp 设置cookie ，见 RxHelper
   compile 'com.squareup.okhttp3:okhttp-urlconnection:3.3.0'
-
   // Material Dialogs
   compile 'com.afollestad.material-dialogs:core:0.9.3.0'
   // Material

@@ -27,8 +27,7 @@ import java.util.concurrent.Future;
  */
 public class NetWorkUtils {
   private static NetWorkUtils instance;
-
-  private enum NetworkType {
+  public enum NetworkType {
     NETWORK_WIFI,
     NETWORK_4G,
     NETWORK_3G,
