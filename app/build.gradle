@@ -11,17 +11,39 @@ android {
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-
     multiDexEnabled true
     renderscriptTargetApi 23
     renderscriptSupportModeEnabled true
   }
+  // 签名配置
+  signingConfigs {
+    debug {
+      storeFile file('./jihaifeng.jks') //签名文件路径
+      storePassword "jihf1992"
+      keyAlias "jihaifeng"
+      keyPassword "jihf1992" //签名密码
+      println("====== signingConfigs.debug ======")
+    }
+    release {
+
+      storeFile file('./jihaifeng.jks') //签名文件路径
+      storePassword "jihf1992"
+      keyAlias "jihaifeng"
+      keyPassword "jihf1992" //签名密码
+      println("====== signingConfigs.release ======")
+    }
+  }
+
   buildTypes {
     release {
       minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'),
-          'proguard-rules.pro'
+      signingConfig signingConfigs.release
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+    debug {
+      debuggable true
+      minifyEnabled false
+      signingConfig signingConfigs.debug
     }
   }
   configurations.all {
@@ -73,6 +95,11 @@ dependencies {
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
   // Glide 图片加载
   compile 'com.github.bumptech.glide:glide:3.7.0'
+  // Dragger 2
+  apt 'com.google.dagger:dagger-compiler:2.0'
+  compile 'com.google.dagger:dagger:2.0' // dagger2
+  //    compile 'com.google.dagger:dagger-compiler:2.0.2' // dagger2
+  provided 'org.glassfish:javax.annotation:10.0-b28'
 }
 
 
