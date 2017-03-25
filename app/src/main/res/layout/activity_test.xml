@@ -17,11 +17,11 @@
       android:layout_height="wrap_content"
       android:text="打开Other窗口">
   </Button>
+
   <Button
       android:id="@+id/btn_getAd"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:text="广告">
   </Button>
-
 </LinearLayout>

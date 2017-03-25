@@ -42,6 +42,8 @@ public class TestActivity extends BaseSimpleActivity implements View.OnClickList
     animationSp.setSelection(0);
 
     otherButton.setOnClickListener(this);
+    btnGetAd.setOnClickListener(v -> {
+    });
   }
 
   @Override public void onClick(View v) {

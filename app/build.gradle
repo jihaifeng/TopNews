@@ -1,15 +1,24 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt' //添加这行
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda' // Lambda表达式
+apply plugin: 'com.android.application' // Android应用
+apply plugin: 'com.neenbedankt.android-apt' // 编译时类
+
+// 配置
+def config = rootProject.ext.configuration
+// 库
+def libs = rootProject.ext.libraries
+
+
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.2"
+
+  compileSdkVersion config.compileSdkVersion
+  buildToolsVersion config.buildToolsVersion
+
   defaultConfig {
-    applicationId "com.jihf.topnews"
-    minSdkVersion 15
-    targetSdkVersion 25
-    versionCode 1
-    versionName "1.0"
+    minSdkVersion config.minSdkVersion
+    targetSdkVersion config.targetSdkVersion
+    versionCode config.versionCode
+    versionName config.versionName
+    applicationId config.package
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     multiDexEnabled true
     renderscriptTargetApi 23
@@ -46,12 +55,19 @@ android {
       signingConfig signingConfigs.debug
     }
   }
-  configurations.all {
-    resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
-  }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  // 注释冲突
+  packagingOptions {
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+  }
+
+  configurations.all {
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
   }
 }
 
@@ -60,78 +76,56 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile 'com.android.support:appcompat-v7:25.1.1'
   testCompile 'junit:junit:4.12'
+  // Android
+  compile "com.android.support:design:${libs.supportVersion}"
+  compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+  compile "com.android.support:cardview-v7:${libs.supportVersion}"
+  compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
+  compile "com.android.support:palette-v7:${libs.supportVersion}"
   // 工具类
-  compile 'com.jihf.utils:androidutils:1.0.0'
+  compile "com.jihf.utils:androidutils:${libs.androidUtils}"
   // 滑动返回
-  compile 'com.jihf.swipebackdemo:swipbackhelper:1.0.0'
+  compile "com.jihf.swipeback:swipbackhelper:${libs.swipeBack}"
   // butterKnife注解
-  compile 'com.jakewharton:butterknife:8.2.1'
+  compile "com.jakewharton:butterknife:${libs.butterknife}"
   // 添加这行
-  apt 'com.jakewharton:butterknife-compiler:8.2.1'
-  // RxLifecycle  避免RxJava导致内存泄漏
-  compile 'com.trello:rxlifecycle:1.0'
-  compile 'com.trello:rxlifecycle-components:1.0'
-  // rxbinding
-  compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
+  apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
   // retrofit + gson + rxjava + okhttp 套装
-  compile 'com.squareup.retrofit2:retrofit:2.1.0'
-  //  compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-  compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-  compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
-  compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+  compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+  // compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
+  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
+  compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
+  // Dragger 2
+  compile "com.google.dagger:dagger:${libs.dagger}"
+  apt "com.google.dagger:dagger-compiler:${libs.dagger}"
+  compile "org.glassfish:javax.annotation:${libs.javax_annotation}"
+  // Glide 图片加载
+  compile "com.github.bumptech.glide:glide:${libs.glide}"
+  // Recycler动画
+  compile "jp.wasabeef:recyclerview-animators:${libs.recycler_animators}"
+  // 头像视图
+  compile "de.hdodenhof:circleimageview:${libs.circleimageview}"
   // okHttp 设置log ，见 RxHelper
-  compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+  compile "com.squareup.okhttp3:logging-interceptor:${libs.okhttp}"
   // okHttp 设置cookie ，见 RxHelper
-  compile 'com.squareup.okhttp3:okhttp-urlconnection:3.3.0'
+  compile "com.squareup.okhttp3:okhttp-urlconnection:${libs.okhttp}"
+  // Rx拓展
+  // RxLifecycle  避免RxJava导致内存泄漏
+  compile "com.trello:rxlifecycle:${libs.rxlifecycle}"
+  compile "com.trello:rxlifecycle-components:${libs.rxlifecycle}"
+  // rxbinding
+  compile "com.jakewharton.rxbinding:rxbinding:${libs.rxbinding}"
+  // rxPreferences
+  compile "com.f2prateek.rx.preferences:rx-preferences:${libs.rxpreference}"
+  // sqlbrite
+  compile "com.squareup.sqlbrite:sqlbrite:${libs.sqlbrite}"
+  // rxpermissions
+  compile "com.tbruyelle.rxpermissions:rxpermissions:${libs.rxpermission}"
   // Material Dialogs
   compile 'com.afollestad.material-dialogs:core:0.9.3.0'
-  // Material
-  compile 'com.android.support:design:25.1.1'
   // 内存泄漏检测
-  //  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
+  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
+  // 进度条动画
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
-  // Glide 图片加载
-  compile 'com.github.bumptech.glide:glide:3.7.0'
-  // Dragger 2
-  apt 'com.google.dagger:dagger-compiler:2.0'
-  compile 'com.google.dagger:dagger:2.0' // dagger2
-  //    compile 'com.google.dagger:dagger-compiler:2.0.2' // dagger2
-  provided 'org.glassfish:javax.annotation:10.0-b28'
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

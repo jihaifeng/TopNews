@@ -1,7 +1,28 @@
 ext {
 
-  android = [compileSdkVersion: 24,
-             buildToolsVersion: "24.0.3",
-             minSdkVersion    : 14,
-             targetSdkVersion : 24,]
+  configuration = [package          : "com.jihf.topnews",
+                   compileSdkVersion: 25,
+                   buildToolsVersion: "25.0.2",
+                   minSdkVersion    : 15,
+                   targetSdkVersion : 25,
+                   versionCode      : 1,
+                   versionName      : "1.0"]
+
+  libraries = [supportVersion    : "25.1.1",
+               retrofit          : "2.1.0",
+               rxlifecycle       : "1.0",
+               rxbinding         : "1.0.1",
+               rxpreference      : "1.0.2",
+               rxpermission      : "0.9.1@aar",
+               sqlbrite          : "1.1.1",
+               rxandroid         : "1.1.0",
+               butterknife       : "8.2.1",
+               glide             : "3.7.0",
+               androidUtils      : "1.0",
+               swipeBack         : "1.0",
+               okhttp            : "3.3.0",
+               dagger            : "2.0",
+               javax_annotation  : "10.0-b28",
+               recycler_animators: "2.1.0",
+               circleimageview   : "2.0.0",]
 }
