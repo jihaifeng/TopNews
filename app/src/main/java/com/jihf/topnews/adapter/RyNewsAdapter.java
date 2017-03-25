@@ -82,10 +82,14 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
   }
 
   public void setScrolling(boolean isScrolling) {
-    if (isScrolling) {
-      Glide.with(context).pauseRequests();
-    } else {
-      Glide.with(context).resumeRequests();
+    try {
+      if (isScrolling) {
+        Glide.with(context).pauseRequests();
+      } else {
+        Glide.with(context).resumeRequests();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     LogUtils.i(TAG, "setScrolling: " + isScrolling);
   }
