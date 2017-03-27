@@ -128,5 +128,6 @@ dependencies {
   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
   // 进度条动画
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
+  // 工具类
   compile project(path: ':androidutils')
 }
