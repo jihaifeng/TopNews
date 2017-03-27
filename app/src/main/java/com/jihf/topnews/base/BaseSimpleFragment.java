@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.LogUtils;
-import com.jihf.topnews.utils.ProgressDialogUtils;
+import com.jihf.androidutils.tools.ProgressDialogUtils;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 /**

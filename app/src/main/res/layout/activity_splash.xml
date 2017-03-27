@@ -16,8 +16,8 @@
       android:layout_height="@dimen/dp_44"
       android:layout_gravity="end"
       android:layout_margin="@dimen/dp_22"
+      android:lineSpacingExtra="@dimen/dp_2"
       android:background="@drawable/round_btn_bg"
       android:gravity="center"
-      android:textColor="@android:color/white"
-      android:textSize="@dimen/sp_8"/>
+      android:textColor="@android:color/white"/>
 </FrameLayout>

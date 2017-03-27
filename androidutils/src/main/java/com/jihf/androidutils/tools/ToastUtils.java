@@ -1,8 +1,7 @@
-package com.jihf.topnews.utils;
+package com.jihf.androidutils.tools;
 
 import android.support.annotation.StringRes;
 import android.widget.Toast;
-import com.jihf.androidutils.tools.Utils;
 
 /**
  * Func：

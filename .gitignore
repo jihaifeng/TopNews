@@ -13,3 +13,4 @@
 /*.properties
 /.idea
 /config.gradle
+/androidutils/*.iml

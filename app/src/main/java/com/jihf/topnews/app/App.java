@@ -7,10 +7,11 @@ import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jihf.androidutils.tools.LogUtils;
+import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.androidutils.tools.Utils;
 import com.jihf.topnews.BuildConfig;
 import com.jihf.topnews.http.HttpApiMethed;
-import com.jihf.topnews.utils.ScreenUtil;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Func：
@@ -45,9 +46,9 @@ public class App extends Application {
     //设置日志类是否显示
     LogUtils.setLogSwitch(BuildConfig.DEBUG);
     //内存泄漏检测
-    //LeakCanary.install(this);
+    LeakCanary.install(this);
     //
-    ScreenUtil.createInstance(this);
+    ScreenUtils.createInstance(this);
     // http
     HttpApiMethed.init();
   }

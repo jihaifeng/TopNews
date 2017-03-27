@@ -1,4 +1,4 @@
-package com.jihf.topnews.utils;
+package com.jihf.androidutils.tools;
 
 import android.app.Activity;
 import android.graphics.Color;

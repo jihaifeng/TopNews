@@ -17,9 +17,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
+import com.jihf.androidutils.tools.ProgressDialogUtils;
+import com.jihf.androidutils.tools.snackBar.SnackBarType;
+import com.jihf.androidutils.tools.snackBar.SnackBarUtils;
 import com.jihf.swipbackhelper.SwipeBackHelper;
 import com.jihf.topnews.R;
-import com.jihf.topnews.utils.ProgressDialogUtils;
 
 /**
  * Func：
@@ -37,6 +39,7 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
   private Context mBaseContext;
   private Activity mCurrentActivity;
   private Unbinder unbinder;
+  private long exitTime;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -218,4 +221,22 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
   protected abstract int getLayoutId();
 
   protected abstract void initViewAndEvent();
+
+  @Override public void onBackPressed() {
+    if (canGoBack()) {
+      super.onBackPressed();
+    } else {
+      exit();
+    }
+  }
+
+  public void exit() {
+    if ((System.currentTimeMillis() - exitTime) > 2000) {
+      SnackBarUtils.creatShort(contentFrame, "再按一次退出程序").setType(SnackBarType.Confirm).show();
+      exitTime = System.currentTimeMillis();
+    } else {
+      finish();
+      System.exit(0);
+    }
+  }
 }

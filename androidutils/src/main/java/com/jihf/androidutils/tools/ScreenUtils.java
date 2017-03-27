@@ -1,19 +1,19 @@
-package com.jihf.topnews.utils;
+package com.jihf.androidutils.tools;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import java.lang.reflect.Field;
 
-public class ScreenUtil {
-  private static ScreenUtil screen;
+public class ScreenUtils {
+  private static ScreenUtils screen;
   private static float screenWidth = -1;
   private static float screenHeight = -1;
   private static int stateBarHeight = -1;
   private static float density = 1;
   private static float scale;
 
-  private ScreenUtil(Context mContext) {
+  private ScreenUtils(Context mContext) {
     DisplayMetrics dm = new DisplayMetrics();
     ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(dm);
     screenWidth = dm.widthPixels;
@@ -24,9 +24,9 @@ public class ScreenUtil {
     scale = mContext.getResources().getDisplayMetrics().density;
   }
 
-  public static ScreenUtil createInstance(Context mContext) {
+  public static ScreenUtils createInstance(Context mContext) {
     if (screen == null) {
-      screen = new ScreenUtil(mContext);
+      screen = new ScreenUtils(mContext);
     }
     return screen;
   }

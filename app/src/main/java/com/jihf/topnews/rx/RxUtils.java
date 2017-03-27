@@ -2,8 +2,6 @@ package com.jihf.topnews.rx;
 
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Func：
@@ -26,12 +24,9 @@ public class RxUtils {
       time = 0;
     }
     final int countTime = time;
-    return Observable.interval(0, 1, TimeUnit.SECONDS)
+    return Observable.interval(0, 1, TimeUnit.SECONDS)//设置0延迟，每隔一秒发送一条数据
         .map(increaseTime -> countTime - increaseTime.intValue())
-        .take(countTime + 1)
-        .subscribeOn(Schedulers.io())
-        .unsubscribeOn(Schedulers.io())
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .observeOn(AndroidSchedulers.mainThread());
+        .compose(RxSchedulersHelper.io_main())
+        .take(countTime + 1);
   }
 }

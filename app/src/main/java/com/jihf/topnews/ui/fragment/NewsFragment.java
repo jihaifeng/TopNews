@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.jihf.androidutils.tools.LogUtils;
+import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.adapter.RyNewsAdapter;
 import com.jihf.topnews.base.BaseMvpFragment;
@@ -18,7 +19,6 @@ import com.jihf.topnews.constants.JuHeConstants;
 import com.jihf.topnews.contract.NewsContract;
 import com.jihf.topnews.model.news.ResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
-import com.jihf.topnews.utils.ScreenUtil;
 import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
 import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
 
@@ -77,7 +77,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
 
   private void initAdapter() {
     DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-    decoration.setDividerSize(ScreenUtil.dip2px((float) 0.5));
+    decoration.setDividerSize(ScreenUtils.dip2px((float) 0.5));
     ryNews.removeItemDecoration(decoration);
     ryNews.addItemDecoration(decoration);
     LinearLayoutManagerPlus linearLayoutManagerPlus = new LinearLayoutManagerPlus(getActivity());

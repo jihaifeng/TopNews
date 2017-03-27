@@ -1,4 +1,4 @@
-package com.jihf.topnews.utils;
+package com.jihf.androidutils.tools;
 
 import java.util.List;
 

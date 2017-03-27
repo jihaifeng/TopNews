@@ -84,7 +84,7 @@ dependencies {
   compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
   compile "com.android.support:palette-v7:${libs.supportVersion}"
   // 工具类
-  compile "com.jihf.utils:androidutils:${libs.androidUtils}"
+  //  compile "com.jihf.utils:androidutils:${libs.androidUtils}"
   // 滑动返回
   compile "com.jihf.swipeback:swipbackhelper:${libs.swipeBack}"
   // butterKnife注解
@@ -128,4 +128,5 @@ dependencies {
   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
   // 进度条动画
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
+  compile project(path: ':androidutils')
 }

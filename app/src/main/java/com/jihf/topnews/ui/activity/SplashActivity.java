@@ -1,8 +1,8 @@
 package com.jihf.topnews.ui.activity;
 
-import android.os.Build;
-import android.os.CountDownTimer;
-import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,8 +13,9 @@ import com.bumptech.glide.Glide;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.base.BaseSimpleActivity;
-
-import static android.text.Html.FROM_HTML_MODE_LEGACY;
+import com.jihf.topnews.rx.RxUtils;
+import com.jihf.androidutils.tools.countDownTime.MyCountDownTimer;
+import rx.Subscriber;
 
 /**
  * Func：
@@ -37,9 +38,34 @@ public class SplashActivity extends BaseSimpleActivity {
 
   @Override protected void initViewAndEvent() {
     Glide.with(this).load(R.mipmap.ic_splash).into(ivSplash);
-    timer = new MyCountDownTimer(5 * 1000, 1000);
-    timer.start();
     getToolBar().setVisibility(View.GONE);
+    cutDownTime();
+  }
+
+  private void cutDownTime() {
+    RxUtils.countdown(5).compose(bindToLifecycle()).subscribe(new Subscriber<Integer>() {
+
+      @Override public void onCompleted() {
+        toMain();
+      }
+
+      @Override public void onError(Throwable e) {
+
+      }
+
+      @Override public void onNext(Integer integer) {
+        LogUtils.i(TAG, "subscribe：" + integer);
+        if (integer > 0) {
+          SpannableString spanStr = new SpannableString("跳过\n" + integer + " s");
+          spanStr.setSpan(new AbsoluteSizeSpan(12, true), 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+          spanStr.setSpan(new AbsoluteSizeSpan(10, true), 2, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+          spanStr.setSpan(new AbsoluteSizeSpan(12, true), 5, 6, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+          tvCutDownTime.setText(spanStr);
+        } else {
+          toMain();
+        }
+      }
+    });
   }
 
   @OnClick ({ R.id.iv_splash, R.id.tv_cut_down_time }) public void onClick(View view) {
@@ -49,40 +75,6 @@ public class SplashActivity extends BaseSimpleActivity {
       case R.id.tv_cut_down_time:
         toMain();
         break;
-    }
-  }
-
-  /**
-   * 定义一个倒计时的内部类
-   */
-  private class MyCountDownTimer extends CountDownTimer {
-    /**
-     * @param millisInFuture 从开始调用start()到倒计时完成并 onfinish()方法被调用的毫秒数
-     * @param countDownInterval 接收onTick(long)回调的间隔时间
-     */
-    MyCountDownTimer(long millisInFuture, long countDownInterval) {
-      super(millisInFuture, countDownInterval);
-    }
-
-    @Override public void onTick(long l) {
-      LogUtils.i(TAG, "onTick：" + l / 1000);
-      String html = "<a style=\"font-size: 20px\">跳过</a><br>\n"
-          + "<a style=\"font-size: 16px\">"
-          + l / 1000
-          + "</a>\n"
-          + "<a style=\"font-size: 18px\">s</a>";
-      if (Build.VERSION.SDK_INT >= 24) {
-        tvCutDownTime.setText(Html.fromHtml(html, FROM_HTML_MODE_LEGACY)); // for 24 api and more
-      } else {
-        tvCutDownTime.setText(Html.fromHtml(html)); // or for older api
-      }
-    }
-
-    @Override public void onFinish() {
-      LogUtils.i(TAG, "onFinish：");
-      toMain();
-      //tvCutDownTime.setText("");
-      //tvCutDownTime.setVisibility(View.GONE);
     }
   }
 

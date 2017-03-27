@@ -7,9 +7,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.jihf.androidutils.tools.ProgressDialogUtils;
 import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
-import com.jihf.topnews.utils.ProgressDialogUtils;
 
 /**
  * Func：
