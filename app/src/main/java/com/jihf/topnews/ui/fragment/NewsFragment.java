@@ -2,7 +2,6 @@ package com.jihf.topnews.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.jihf.MaterialRefreshLayout;
+import com.jihf.MaterialRefreshListener;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.topnews.R;
@@ -23,8 +24,6 @@ import com.jihf.topnews.presenter.NewsPresenter;
 import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
 import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
 
-import static com.jihf.topnews.R.id.ry_news;
-
 /**
  * Func：
  * Desc:
@@ -32,13 +31,12 @@ import static com.jihf.topnews.R.id.ry_news;
  * Data：2017-02-22 15:52
  * Mail：jihaifeng@raiyi.com
  */
-public class NewsFragment extends BaseMvpFragment<NewsPresenter>
-    implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends BaseMvpFragment<NewsPresenter> implements NewsContract.View {
 
   @BindView (R.id.tv_error_msg) TextView tvErrorMsg;
   @BindView (R.id.news_error_view) View errorView;
-  @BindView (ry_news) RecyclerView ryNews;
-  @BindView (R.id.sf_news) SwipeRefreshLayout sfNews;
+  @BindView (R.id.ry_news) RecyclerView ryNews;
+  @BindView (R.id.sf_news) MaterialRefreshLayout sfNews;
   @BindView (R.id.iv_data_refresh) ImageView ivDataRefresh;
 
   private RyNewsAdapter ryNewsAdapter;
@@ -72,8 +70,12 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     }
     LogUtils.i(TAG, "initViewAndEvent：" + TYPE_KEY);
     getPresenter().getDataFromNet();
-    sfNews.setOnRefreshListener(this);
-    sfNews.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
+    sfNews.setMaterialRefreshListener(new MaterialRefreshListener() {
+      @Override public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+        getPresenter().getDataFromNet();
+      }
+    });
+    sfNews.setProgressColors(Color.RED, Color.BLUE, Color.GREEN);
   }
 
   private void initAdapter() {
@@ -100,11 +102,11 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     errorView.setVisibility(View.GONE);
     ryNews.setVisibility(View.VISIBLE);
     hideLoading();
-    sfNews.setRefreshing(false);
     if (null != resultBean && null != resultBean.data && resultBean.data.size() != 0) {
       ryNewsAdapter.replaceDatas(resultBean.data);
     }
     JuHeConstants.setHasShowLoading(true);
+    sfNews.finishRefresh();
   }
 
   @Override public void onDestroy() {
@@ -117,7 +119,8 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     errorView.setVisibility(View.VISIBLE);
     ryNews.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);
-    sfNews.setRefreshing(false);
+    //sfNews.setRefreshing(false);
+    sfNews.finishRefresh();
   }
 
   @OnClick ({ R.id.tv_error_msg, R.id.iv_data_refresh }) public void onClick(View view) {
@@ -132,9 +135,5 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
   @Override public String getType() {
     LogUtils.i(TAG, "type：" + TYPE_KEY);
     return TYPE_KEY;
-  }
-
-  @Override public void onRefresh() {
-    getPresenter().getDataFromNet();
   }
 }

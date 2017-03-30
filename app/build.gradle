@@ -79,12 +79,18 @@ dependencies {
   testCompile 'junit:junit:4.12'
   // Android
   compile "com.android.support:design:${libs.supportVersion}"
+  //
   compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+  //
   compile "com.android.support:cardview-v7:${libs.supportVersion}"
+  //
   compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
+  //
   compile "com.android.support:palette-v7:${libs.supportVersion}"
   // 工具类
+
   //  compile "com.jihf.utils:androidutils:${libs.androidUtils}"
+
   // 滑动返回
   compile "com.jihf.swipeback:swipbackhelper:${libs.swipeBack}"
   // butterKnife注解
@@ -96,12 +102,14 @@ dependencies {
   // retrofit + gson + rxjava + okhttp 套装
   compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
   // compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
-  //  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
 
+  //  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
   compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
   // Dragger 2
   compile "com.google.dagger:dagger:${libs.dagger}"
+  //
   apt "com.google.dagger:dagger-compiler:${libs.dagger}"
+  //
   compile "org.glassfish:javax.annotation:${libs.javax_annotation}"
   // Glide 图片加载
   compile "com.github.bumptech.glide:glide:${libs.glide}"
@@ -114,8 +122,10 @@ dependencies {
   // okHttp 设置cookie ，见 RxHelper
   compile "com.squareup.okhttp3:okhttp-urlconnection:${libs.okhttp}"
   // Rx拓展
+
   // RxLifecycle  避免RxJava导致内存泄漏
   compile "com.trello:rxlifecycle:${libs.rxlifecycle}"
+  //
   compile "com.trello:rxlifecycle-components:${libs.rxlifecycle}"
   // rxbinding
   compile "com.jakewharton.rxbinding:rxbinding:${libs.rxbinding}"
@@ -132,5 +142,6 @@ dependencies {
   // 进度条动画
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
   // 工具类
-  compile project(path: ':androidutils')
+  compile project(':androidutils')
+  compile project(':MaterialRefreshLayout')
 }

@@ -1,6 +1,5 @@
 package com.jihf.topnews.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.jihf.MaterialRefreshLayout;
+import com.jihf.MaterialRefreshListener;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.topnews.R;
@@ -38,8 +39,9 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
   @BindView (R.id.news_error_view) View errorView;
   @BindView (R.id.iv_data_refresh) ImageView ivDataRefresh;
   @BindView (R.id.ry_gank) RecyclerView ryGank;
-  @BindView (R.id.sf_gank) SwipeRefreshLayout sfGank;
+  @BindView (R.id.sf_gank) MaterialRefreshLayout sfGank;
   private RyGankAdapter ryGankAdapter;
+  private int page;
 
   @Override protected GankPresenter initPresenter() {
     return new GankPresenter(getActivity());
@@ -59,8 +61,16 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     }
     LogUtils.i(TAG, "initViewAndEvent：" + type);
     getPresenter().getDataFromNet();
-    sfGank.setOnRefreshListener(this);
-    sfGank.setColorSchemeColors(Color.BLUE, Color.RED, Color.YELLOW);
+    sfGank.setMaterialRefreshListener(new MaterialRefreshListener() {
+      @Override public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+        getPresenter().getDataFromNet();
+      }
+
+      @Override public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+        super.onRefreshLoadMore(materialRefreshLayout);
+        getPresenter().loadMore(page++);
+      }
+    });
   }
 
   private void initAdapter() {
@@ -75,7 +85,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     ryGank.setLayoutManager(linearLayoutManagerPlus);
     //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
     ryGank.setHasFixedSize(true);
-    ryGankAdapter = new RyGankAdapter(getActivity(),ryGank);
+    ryGankAdapter = new RyGankAdapter(getActivity(), ryGank);
     ryGank.setAdapter(ryGankAdapter);
     ryGank.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -88,17 +98,34 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     errorView.setVisibility(View.GONE);
     ryGank.setVisibility(View.VISIBLE);
     ryGankAdapter.replaceDatas(gankBaseBean.results);
-    sfGank.setRefreshing(false);
+    sfGank.finishRefresh();
     hideLoading();
+  }
+
+  @Override public void showError(String msg) {
+    super.showError(msg);
+    errorView.setVisibility(View.VISIBLE);
+    ryGank.setVisibility(View.GONE);
+    tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);
+    sfGank.finishRefresh();
+    sfGank.finishRefreshLoadMore();
+  }
+
+  @Override public void showMore(GankBaseBean gankBaseBean) {
+    sfGank.finishRefreshLoadMore();
+    ryGankAdapter.addDatas(gankBaseBean.results);
+  }
+
+  @Override public void showMoreError(String msg) {
+    sfGank.finishRefreshLoadMore();
+    errorView.setVisibility(View.VISIBLE);
+    ryGank.setVisibility(View.GONE);
+    tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "没有更多数据..." : msg);
   }
 
   @Override public String getType() {
     LogUtils.i(TAG, "type：" + type);
     return type;
-  }
-
-  @Override public int getPage() {
-    return 1;
   }
 
   public static GankFragment newInstance(String type) {
@@ -107,14 +134,6 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     GankFragment fragment = new GankFragment();
     fragment.setArguments(args);
     return fragment;
-  }
-
-  @Override public void showError(String msg) {
-    super.showError(msg);
-    errorView.setVisibility(View.VISIBLE);
-    ryGank.setVisibility(View.GONE);
-    tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);
-    sfGank.setRefreshing(false);
   }
 
   @OnClick ({ R.id.tv_error_msg, R.id.iv_data_refresh }) public void onClick(View view) {

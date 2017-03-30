@@ -17,10 +17,14 @@ public interface GankContract {
 
     String getType();
 
-    int getPage();
+    void showMore(GankBaseBean gankBaseBean);
+
+    void showMoreError(String moreError);
   }
 
   interface Presenter extends RxPresenter<View> {
     void getDataFromNet();
+
+    void loadMore(int page);
   }
 }

@@ -14,3 +14,5 @@
 /.idea
 /config.gradle
 /androidutils/*.iml
+/MaterialRefreshLayout/*.iml
+/MaterialRefreshLayout/build
