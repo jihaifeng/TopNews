@@ -14,7 +14,7 @@ import rx.Observable;
  */
 public interface GankApiService {
 
-  int NUM = 20;
+  int NUM = 5;
 
   //  数据类型： 福利 | Android | iOS | 休息视频 | 拓展资源 | 前端 | all
   //  请求个数： 数字，大于0

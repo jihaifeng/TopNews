@@ -1,5 +1,6 @@
 package com.jihf.topnews.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.jihf.MaterialRefreshLayout;
-import com.jihf.MaterialRefreshListener;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.topnews.R;
@@ -39,7 +39,8 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
   @BindView (R.id.news_error_view) View errorView;
   @BindView (R.id.iv_data_refresh) ImageView ivDataRefresh;
   @BindView (R.id.ry_gank) RecyclerView ryGank;
-  @BindView (R.id.sf_gank) MaterialRefreshLayout sfGank;
+  @BindView (R.id.sf_gank) SwipeRefreshLayout sfGank;
+  @BindView (R.id.ll_load_more) LinearLayout viewLoadMore;
   private RyGankAdapter ryGankAdapter;
   private int page;
 
@@ -61,16 +62,29 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     }
     LogUtils.i(TAG, "initViewAndEvent：" + type);
     getPresenter().getDataFromNet();
-    sfGank.setMaterialRefreshListener(new MaterialRefreshListener() {
-      @Override public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-        getPresenter().getDataFromNet();
-      }
+    sfGank.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
+    sfGank.setOnRefreshListener(this);
+  }
 
-      @Override public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-        super.onRefreshLoadMore(materialRefreshLayout);
-        getPresenter().loadMore(page++);
-      }
-    });
+  public static boolean isVisBottom(RecyclerView recyclerView) {
+    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+    //屏幕中最后一个可见子项的position
+    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+    //当前屏幕所看到的子项个数
+    int visibleItemCount = layoutManager.getChildCount();
+    //当前RecyclerView的所有子项个数
+    int totalItemCount = layoutManager.getItemCount();
+    //RecyclerView的滑动状态
+    int state = recyclerView.getScrollState();
+    LogUtils.i(TAG, visibleItemCount + "\n" + (lastVisibleItemPosition == totalItemCount - 1) + "\n" + (state
+        == RecyclerView.SCROLL_STATE_IDLE));
+    if (visibleItemCount > 0
+        && lastVisibleItemPosition == totalItemCount - 1
+        && state == RecyclerView.SCROLL_STATE_IDLE) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private void initAdapter() {
@@ -90,6 +104,10 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     ryGank.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         ryGankAdapter.setScrolling(newState != RecyclerView.SCROLL_STATE_IDLE);
+        if (isVisBottom(ryGank) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+          getPresenter().loadMore(page++);
+          viewLoadMore.setVisibility(View.VISIBLE);
+        }
       }
     });
   }
@@ -98,7 +116,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     errorView.setVisibility(View.GONE);
     ryGank.setVisibility(View.VISIBLE);
     ryGankAdapter.replaceDatas(gankBaseBean.results);
-    sfGank.finishRefresh();
+    sfGank.setRefreshing(false);
     hideLoading();
   }
 
@@ -107,17 +125,16 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     errorView.setVisibility(View.VISIBLE);
     ryGank.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);
-    sfGank.finishRefresh();
-    sfGank.finishRefreshLoadMore();
+    sfGank.setRefreshing(false);
   }
 
   @Override public void showMore(GankBaseBean gankBaseBean) {
-    sfGank.finishRefreshLoadMore();
+    viewLoadMore.setVisibility(View.GONE);
     ryGankAdapter.addDatas(gankBaseBean.results);
   }
 
   @Override public void showMoreError(String msg) {
-    sfGank.finishRefreshLoadMore();
+    viewLoadMore.setVisibility(View.GONE);
     errorView.setVisibility(View.VISIBLE);
     ryGank.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "没有更多数据..." : msg);

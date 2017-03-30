@@ -19,7 +19,7 @@ import android.widget.FrameLayout;
 
 public class MaterialRefreshLayout extends FrameLayout {
 
-  public static final String Tag = MaterialRefreshLayout.class.getSimpleName();
+  public static final String TAG = MaterialRefreshLayout.class.getSimpleName();
   private final static int DEFAULT_WAVE_HEIGHT = 140;
   private final static int HIGHER_WAVE_HEIGHT = 180;
   private final static int DEFAULT_HEAD_HEIGHT = 70;
@@ -121,11 +121,11 @@ public class MaterialRefreshLayout extends FrameLayout {
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow();
-    Log.i(Tag, "onAttachedToWindow");
 
     Context context = getContext();
+    ViewGroup viewGroup = (ViewGroup) getChildAt(0);
 
-    mChildView = getChildAt(0);
+    mChildView = viewGroup.getChildAt(1);
 
     if (mChildView == null) {
       return;
@@ -192,6 +192,7 @@ public class MaterialRefreshLayout extends FrameLayout {
       case MotionEvent.ACTION_MOVE:
         float currentY = ev.getY();
         float dy = currentY - mTouchY;
+        Log.i(TAG, "currentY: " + currentY + "\nmTouchY：" + mTouchY);
         if (dy > 0 && !canChildScrollUp()) {
           if (mMaterialHeaderView != null) {
             mMaterialHeaderView.setVisibility(View.VISIBLE);
@@ -444,7 +445,9 @@ public class MaterialRefreshLayout extends FrameLayout {
         return ViewCompat.canScrollVertically(mChildView, 1) || mChildView.getScrollY() > 0;
       }
     } else {
-      return ViewCompat.canScrollVertically(mChildView, 1);
+      Log.i(TAG, "canChildScrollDown: " + mChildView);
+      boolean flag = ViewCompat.canScrollVertically(mChildView, 1);
+      return flag;
     }
   }
 
@@ -520,6 +523,4 @@ public class MaterialRefreshLayout extends FrameLayout {
   public void setMaterialRefreshListener(MaterialRefreshListener refreshListener) {
     this.refreshListener = refreshListener;
   }
-
-
 }
