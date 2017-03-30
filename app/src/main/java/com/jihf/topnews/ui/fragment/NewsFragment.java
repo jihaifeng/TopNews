@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.OnClick;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.topnews.R;
@@ -17,7 +18,7 @@ import com.jihf.topnews.adapter.RyNewsAdapter;
 import com.jihf.topnews.base.BaseMvpFragment;
 import com.jihf.topnews.constants.JuHeConstants;
 import com.jihf.topnews.contract.NewsContract;
-import com.jihf.topnews.model.news.ResultBean;
+import com.jihf.topnews.model.news.JuheResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
 import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
 import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
@@ -38,7 +39,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
   @BindView (R.id.news_error_view) View errorView;
   @BindView (ry_news) RecyclerView ryNews;
   @BindView (R.id.sf_news) SwipeRefreshLayout sfNews;
-  @BindView (R.id.iv_news_refresh) ImageView ivNewsRefresh;
+  @BindView (R.id.iv_data_refresh) ImageView ivDataRefresh;
 
   private RyNewsAdapter ryNewsAdapter;
   private static String DATA_TYPE = "data_type";
@@ -65,19 +66,20 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     if (!JuHeConstants.isHasShowLoading()) {
       showLoading();
     }
-    LogUtils.i(TAG, "JuHeConstants.isHasShowLoading(): " + JuHeConstants.isHasShowLoading());
     Bundle bundle = getArguments();
     if (null != bundle) {
       TYPE_KEY = TextUtils.isEmpty(bundle.getString(DATA_TYPE)) ? JuHeConstants.TYPE_TOP : bundle.getString(DATA_TYPE);
     }
+    LogUtils.i(TAG, "initViewAndEvent：" + TYPE_KEY);
     getPresenter().getDataFromNet();
     sfNews.setOnRefreshListener(this);
-    sfNews.setColorSchemeColors(Color.BLUE, Color.RED, Color.YELLOW);
+    sfNews.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
   }
 
   private void initAdapter() {
-    DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-    decoration.setDividerSize(ScreenUtils.dip2px((float) 0.5));
+    DividerItemDecoration decoration =
+        new DividerItemDecoration(getActivity(), R.color.line, DividerItemDecoration.VERTICAL_LIST);
+    decoration.setDividerSize(ScreenUtils.dip2px((float) 0.3));
     ryNews.removeItemDecoration(decoration);
     ryNews.addItemDecoration(decoration);
     LinearLayoutManagerPlus linearLayoutManagerPlus = new LinearLayoutManagerPlus(getActivity());
@@ -94,7 +96,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     });
   }
 
-  @Override public void showData(ResultBean resultBean) {
+  @Override public void showData(JuheResultBean resultBean) {
     errorView.setVisibility(View.GONE);
     ryNews.setVisibility(View.VISIBLE);
     hideLoading();
@@ -116,10 +118,19 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     ryNews.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);
     sfNews.setRefreshing(false);
-    ivNewsRefresh.setOnClickListener(v -> getPresenter().getDataFromNet());
+  }
+
+  @OnClick ({ R.id.tv_error_msg, R.id.iv_data_refresh }) public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.tv_error_msg:
+      case R.id.iv_data_refresh:
+        getPresenter().getDataFromNet();
+        break;
+    }
   }
 
   @Override public String getType() {
+    LogUtils.i(TAG, "type：" + TYPE_KEY);
     return TYPE_KEY;
   }
 

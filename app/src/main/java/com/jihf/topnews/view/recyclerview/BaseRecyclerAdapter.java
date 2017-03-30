@@ -144,4 +144,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
   // item 长按
   protected abstract void OnItemLongClickListener(int position, T data);
+
+
 }

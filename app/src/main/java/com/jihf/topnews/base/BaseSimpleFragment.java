@@ -37,7 +37,7 @@ public abstract class BaseSimpleFragment extends RxFragment {
     super.onViewCreated(view, savedInstanceState);
     unbinder = ButterKnife.bind(this, view);
     TAG = getClass().getSimpleName().trim();
-    LogUtils.i(TAG, "getClass().getSimpleName().trim()：" + getClass().getSimpleName().trim());
+    LogUtils.i(TAG, "cur：" + getClass().getSimpleName().trim());
     initViewAndEvent();
   }
 

@@ -12,11 +12,11 @@ import java.util.List;
  * Data：2017-03-21 12:45
  * Mail：jihaifeng@raiyi.com
  */
-public class NewsViewPageAdapter extends FragmentPagerAdapter {
+public class FragmentViewPageAdapter extends FragmentPagerAdapter {
 
   private List<Fragment> fragments;
 
-  public NewsViewPageAdapter(FragmentManager fm) {
+  public FragmentViewPageAdapter(FragmentManager fm) {
     super(fm);
   }
 

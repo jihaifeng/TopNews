@@ -91,10 +91,13 @@ dependencies {
   compile "com.jakewharton:butterknife:${libs.butterknife}"
   // 添加这行
   apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
+  // fastjson
+  compile "com.alibaba:fastjson:${libs.fastjson}"
   // retrofit + gson + rxjava + okhttp 套装
   compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
   // compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
-  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
+  //  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
+
   compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
   // Dragger 2
   compile "com.google.dagger:dagger:${libs.dagger}"

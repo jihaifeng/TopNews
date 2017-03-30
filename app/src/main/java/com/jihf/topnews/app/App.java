@@ -9,6 +9,7 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.androidutils.tools.Utils;
+import com.jihf.androidutils.tools.crashLog.CrashHandler;
 import com.jihf.topnews.BuildConfig;
 import com.jihf.topnews.http.HttpApiMethed;
 import com.squareup.leakcanary.LeakCanary;
@@ -41,11 +42,13 @@ public class App extends Application {
     setInstance(this);
     // Rxpreference 初始化
     setRxPreference();
-    //工具类注入
+    // 工具类注入
     Utils.init(this);
-    //设置日志类是否显示
+    // 设置日志类是否显示
     LogUtils.setLogSwitch(BuildConfig.DEBUG);
-    //内存泄漏检测
+    // 异常捕获
+    CrashHandler.getInstance(this).init();
+    // 内存泄漏检测
     LeakCanary.install(this);
     //
     ScreenUtils.createInstance(this);

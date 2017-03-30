@@ -9,5 +9,7 @@ package com.jihf.topnews.constants;
  */
 public class UrlConstants {
   /*聚合数据====新闻头条url*/
-  public static final String URL_TOP_NEWS = "http://v.juhe.cn";
+  public static final String URL_JUHE = "http://v.juhe.cn/";
+  /*干货集中营 Url*/
+  public static final String URL_GANK = "http://gank.io/api/";
 }

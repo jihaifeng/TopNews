@@ -12,9 +12,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.jihf.androidutils.tools.DateTimeUtils;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
-import com.jihf.topnews.model.news.NewsBean;
+import com.jihf.topnews.model.news.JuheNewsBean;
 import com.jihf.topnews.utils.DefaultBgUtils;
 import com.jihf.topnews.view.recyclerview.BaseRecyclerAdapter;
 import com.jihf.topnews.webview.activity.WebSiteActivity;
@@ -26,7 +27,7 @@ import com.jihf.topnews.webview.activity.WebSiteActivity;
  * Data：2017-02-28 16:56
  * Mail：jihaifeng@raiyi.com
  */
-public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
+public class RyNewsAdapter extends BaseRecyclerAdapter<JuheNewsBean> {
 
   public RyNewsAdapter(Context context) {
     super(context);
@@ -37,7 +38,7 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
     return new MyViewHolder(view);
   }
 
-  @Override public void onBind(RecyclerView.ViewHolder vh, int pos, NewsBean data) {
+  @Override public void onBind(RecyclerView.ViewHolder vh, int pos, JuheNewsBean data) {
     if (vh instanceof MyViewHolder) {
       MyViewHolder viewHolder = (MyViewHolder) vh;
       if (null != data) {
@@ -47,7 +48,7 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.viewRootThree.setVisibility(View.GONE);
           viewHolder.tvTitleOne.setText(TextUtils.isEmpty(data.title) ? "" : data.title);
           viewHolder.tvFromOne.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
-          viewHolder.tvTimeOne.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
+          viewHolder.tvTimeOne.setText(DateTimeUtils.formatDateTime(data.date, true));
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
             loadImage(data.thumbnail_pic_s, viewHolder.ivRight);
           }
@@ -56,7 +57,7 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
           viewHolder.viewRootThree.setVisibility(View.VISIBLE);
           viewHolder.tvTitleThree.setText(TextUtils.isEmpty(data.title) ? "" : data.title);
           viewHolder.tvFromThree.setText(TextUtils.isEmpty(data.author_name) ? "" : data.author_name);
-          viewHolder.tvTimeThree.setText(TextUtils.isEmpty(data.date) ? "" : data.date);
+          viewHolder.tvTimeThree.setText(DateTimeUtils.formatDateTime(data.date, true));
           if (!TextUtils.isEmpty(data.thumbnail_pic_s)) {
             loadImage(data.thumbnail_pic_s, viewHolder.ivBottomLeft);
           }
@@ -94,7 +95,7 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
     LogUtils.i(TAG, "setScrolling: " + isScrolling);
   }
 
-  static class MyViewHolder extends RecyclerView.ViewHolder {
+  class MyViewHolder extends RecyclerView.ViewHolder {
     @BindView (R.id.tv_title_one) TextView tvTitleOne;
     @BindView (R.id.iv_right) ImageView ivRight;
     @BindView (R.id.tv_from_one) TextView tvFromOne;
@@ -115,11 +116,11 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<NewsBean> {
     }
   }
 
-  @Override protected void onItemClick(int position, NewsBean data) {
+  @Override protected void onItemClick(int position, JuheNewsBean data) {
     WebSiteActivity.launch(context, data.title, data.url);
   }
 
-  @Override protected void OnItemLongClickListener(int position, NewsBean data) {
+  @Override protected void OnItemLongClickListener(int position, JuheNewsBean data) {
 
   }
 }

@@ -6,21 +6,20 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import butterknife.BindView;
 import com.jihf.topnews.R;
-import com.jihf.topnews.adapter.NewsViewPageAdapter;
+import com.jihf.topnews.adapter.FragmentViewPageAdapter;
 import com.jihf.topnews.base.BaseSimpleFragment;
-import com.jihf.topnews.constants.JuHeConstants;
+import com.jihf.topnews.constants.GankConstants;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Func：
  * Desc:
  * Author：jihf
- * Data：2017-02-22 15:52
+ * Data：2017-03-28 09:27
  * Mail：jihaifeng@raiyi.com
  */
-public class MainFragment extends BaseSimpleFragment {
+public class GankMainFragment extends BaseSimpleFragment {
 
   @BindView (R.id.tab_news) TabLayout tabNews;
   @BindView (R.id.vp_news) ViewPager vpNews;
@@ -32,19 +31,17 @@ public class MainFragment extends BaseSimpleFragment {
   }
 
   @Override protected void initViewAndEvent() {
-    List<String> typeList = JuHeConstants.getNewsTypeList();
-    HashMap<String, String> typeStrMap = JuHeConstants.getNewsTypeMap();
-
+    List<String> typeList = GankConstants.getTypeList();
     for (String key : typeList) {
-      //fragments
-      fragments.add(NewsFragment.newInstance(key));
+      // fragments
+      fragments.add(GankFragment.newInstance(key));
       // tab
-      tabNews.addTab(tabNews.newTab().setText(typeStrMap.get(key)));
+      tabNews.addTab(tabNews.newTab().setText(key));
     }
     tabNews.setTabMode(TabLayout.MODE_SCROLLABLE);
     // viewPage
     // Fragment嵌套Fragment要用getChildFragmentManager
-    NewsViewPageAdapter pageAdapter = new NewsViewPageAdapter(getChildFragmentManager());
+    FragmentViewPageAdapter pageAdapter = new FragmentViewPageAdapter(getChildFragmentManager());
     pageAdapter.setFragmentList(fragments);
     vpNews.setAdapter(pageAdapter);
     // 这句话要放在 ViewPager.setAdapter(mAdapter) 它后面
@@ -52,13 +49,10 @@ public class MainFragment extends BaseSimpleFragment {
     // 重新设置tab标题，因为源码setupWithViewPager里面会执行removeAllTabs方法，导致显示空白
     for (int i = 0; i < typeList.size(); i++) {
       // tab
-      if (null != typeStrMap && null != typeList.get(i)) {
-        TabLayout.Tab tab = tabNews.getTabAt(i);
-        if (null != tab) {
-          tab.setText(TextUtils.isEmpty(typeStrMap.get(typeList.get(i))) ? "新闻" : typeStrMap.get(typeList.get(i)));
-        }
+      TabLayout.Tab tab = tabNews.getTabAt(i);
+      if (null != tab) {
+        tab.setText(TextUtils.isEmpty(typeList.get(i)) ? "all" : typeList.get(i));
       }
     }
   }
-
 }

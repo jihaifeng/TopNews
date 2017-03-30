@@ -7,7 +7,7 @@ package com.jihf.topnews.model.news;
  * Data：2017-02-06 17:24
  * Mail：jihaifeng@raiyi.com
  */
-public class NewsBean {
+public class JuheNewsBean {
 
   /**
    * uniquekey : 75f2852f07d23cc8301dfb9cb146aa72

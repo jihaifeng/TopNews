@@ -7,7 +7,7 @@ package com.jihf.topnews.model.news;
  * Data：2017-02-06 17:26
  * Mail：jihaifeng@raiyi.com
  */
-public class BaseBean {
+public class JuheBaseBean {
 
   /**
    * reason : 成功的返回
@@ -16,6 +16,6 @@ public class BaseBean {
    */
 
   public String reason;
-  public ResultBean result;
+  public JuheResultBean result;
   public int error_code;
 }

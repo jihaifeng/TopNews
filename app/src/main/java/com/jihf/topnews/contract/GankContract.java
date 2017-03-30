@@ -1,6 +1,6 @@
 package com.jihf.topnews.contract;
 
-import com.jihf.topnews.model.news.JuheResultBean;
+import com.jihf.topnews.model.gank.GankBaseBean;
 import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
 
@@ -8,14 +8,16 @@ import com.jihf.topnews.rx.RxPresenter;
  * Func：
  * Desc:
  * Author：jihf
- * Data：2017-02-28 12:45
+ * Data：2017-03-27 18:07
  * Mail：jihaifeng@raiyi.com
  */
-public interface NewsContract {
+public interface GankContract {
   interface View extends RxBaseView {
-    void showData(JuheResultBean resultBean);
+    void showData(GankBaseBean gankBaseBean);
 
     String getType();
+
+    int getPage();
   }
 
   interface Presenter extends RxPresenter<View> {

@@ -449,7 +449,8 @@ public class DateTimeUtils {
 
   public static String formatTime2String(long showTime, boolean haveYear) {
     String str = "";
-    long distance = currentTimeMillis() / 1000 - showTime;
+    long distance = (currentTimeMillis() - showTime) / 1000;
+    LogUtils.i("BaseRecyclerAdapter", "distance：" + distance);
     if (distance < 300) {
       str = "刚刚";
     } else if (distance >= 300 && distance < 600) {
@@ -461,7 +462,7 @@ public class DateTimeUtils {
     } else if (distance >= 1800 && distance < 2700) {
       str = "半小时前";
     } else if (distance >= 2700) {
-      Date date = new Date(showTime * 1000);
+      Date date = new Date(showTime);
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       str = formatDateTime(sdf.format(date), haveYear);
     }
@@ -488,7 +489,7 @@ public class DateTimeUtils {
   }
 
   public static String formatDateTime(String time, boolean haveYear) {
-    SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
     if (time == null) {
       return "";
     }
@@ -517,17 +518,20 @@ public class DateTimeUtils {
 
     current.setTime(date);
     if (current.after(today)) {
-      return "今天 " + time.split(" ")[1];
+      return "今天 " + getDateFormat(date, new SimpleDateFormat("HH:mm"));
     } else if (current.before(today) && current.after(yesterday)) {
-      return "昨天 " + time.split(" ")[1];
+      return "昨天 " + getDateFormat(date, new SimpleDateFormat("HH:mm"));
     } else {
+      time = format.format(date);
       if (haveYear) {
-        int index = time.indexOf(" ");
-        return time.substring(0, index);
+        return time;
       } else {
         int yearIndex = time.indexOf("-") + 1;
-        int index = time.indexOf(" ");
-        return time.substring(yearIndex, time.length()).substring(0, index);
+        time = time.substring(yearIndex, time.length());
+        if (time.startsWith("0")) {
+          time = time.substring(1, time.length());
+        }
+        return time;
       }
     }
   }

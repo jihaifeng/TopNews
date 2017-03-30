@@ -10,12 +10,15 @@
       android:id="@+id/tv_title_three"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:maxLines="2"
+      android:textColor="@color/black_normal"
       android:textSize="@dimen/sp_15"/>
 
   <LinearLayout
       android:id="@+id/ll_image_bottom"
       android:layout_width="match_parent"
-      android:layout_height="80dp"
+      android:layout_height="@dimen/dp_90"
       android:layout_marginTop="@dimen/dp_5">
 
     <ImageView
@@ -56,6 +59,7 @@
         android:ellipsize="end"
         android:gravity="start|center_vertical"
         android:maxLines="1"
+        android:textColor="@color/gray_light"
         android:textSize="@dimen/sp_12"/>
 
     <TextView
@@ -66,6 +70,7 @@
         android:ellipsize="end"
         android:gravity="end|center_vertical"
         android:maxLines="1"
+        android:textColor="@color/gray_light"
         android:textSize="@dimen/sp_12"/>
   </LinearLayout>
 </LinearLayout>

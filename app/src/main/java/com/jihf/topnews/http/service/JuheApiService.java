@@ -1,7 +1,7 @@
-package com.jihf.topnews.http;
+package com.jihf.topnews.http.service;
 
 import com.jihf.topnews.model.BaseResponse;
-import com.jihf.topnews.model.news.ResultBean;
+import com.jihf.topnews.model.news.JuheResultBean;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -16,6 +16,6 @@ import rx.Observable;
 public interface JuheApiService {
   //http://v.juhe.cn/toutiao/index?type=top&key=APPKEY
 
-  @GET ("/toutiao/index") Observable<BaseResponse<ResultBean>> getTopNews(@Query ("key") String key,
+  @GET ("toutiao/index") Observable<BaseResponse<JuheResultBean>> getTopNews(@Query ("key") String key,
       @Query ("type") String type);
 }

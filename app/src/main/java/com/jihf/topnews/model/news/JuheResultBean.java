@@ -2,11 +2,11 @@ package com.jihf.topnews.model.news;
 
 import java.util.List;
 
-public class ResultBean {
+public class JuheResultBean {
   /**
    * stat : 1
    * data : [...]
    */
   public String stat;
-  public List<NewsBean> data;
+  public List<JuheNewsBean> data;
 }

@@ -14,7 +14,7 @@
       android:textSize="@dimen/sp_20"/>
 
   <ImageView
-      android:id="@+id/iv_news_refresh"
+      android:id="@+id/iv_data_refresh"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/tv_error_msg"

@@ -1,4 +1,4 @@
-package com.jihf.androidutils.tools;
+package com.jihf.androidutils.tools.crashLog;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import com.jihf.androidutils.tools.DateTimeUtils;
+import com.jihf.androidutils.tools.FileUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;

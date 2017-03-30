@@ -32,6 +32,9 @@ public class JuHeConstants {
   private static boolean hasShowLoading = false;
 
   public static List<String> getNewsTypeList() {
+    if (newsTypeList.size() != 0) {
+      newsTypeList.clear();
+    }
     newsTypeList.add(TYPE_TOP);
     newsTypeList.add(TYPE_SHEHUI);
     newsTypeList.add(TYPE_GUONEI);
@@ -46,6 +49,9 @@ public class JuHeConstants {
   }
 
   public static HashMap<String, String> getNewsTypeMap() {
+    if (newsTypeMap.size() != 0) {
+      newsTypeMap.clear();
+    }
     newsTypeMap.put(TYPE_TOP, "头条");
     newsTypeMap.put(TYPE_SHEHUI, "社会");
     newsTypeMap.put(TYPE_GUONEI, "国内");

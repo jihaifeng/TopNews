@@ -3,7 +3,7 @@ package com.jihf.topnews.presenter;
 import android.content.Context;
 import com.jihf.topnews.contract.NewsContract;
 import com.jihf.topnews.http.HttpApiMethed;
-import com.jihf.topnews.model.news.ResultBean;
+import com.jihf.topnews.model.news.JuheResultBean;
 import com.jihf.topnews.rx.RxBasePresenter;
 import com.jihf.topnews.rx.RxSubscriber;
 
@@ -21,13 +21,13 @@ public class NewsPresenter extends RxBasePresenter<NewsContract.View> implements
   }
 
   @Override public void getDataFromNet() {
-    HttpApiMethed.getTopNews(getmView().getType(), getmView()).subscribe(new RxSubscriber<ResultBean>() {
+    HttpApiMethed.getTopNews(getmView().getType(), getmView()).subscribe(new RxSubscriber<JuheResultBean>() {
 
       @Override protected void onError(String message) {
         getmView().showError(message);
       }
 
-      @Override public void onNext(ResultBean bean) {
+      @Override public void onNext(JuheResultBean bean) {
         getmView().showData(bean);
       }
     });
