@@ -15,10 +15,10 @@ import retrofit2.Converter;
  * Data：2017-03-29 17:51
  * Mail：jihaifeng@raiyi.com
  */
-public class FastJsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
+class FastJsonResponseBodyConverter<T> implements Converter<ResponseBody, T> {
   private final Type type;
 
-  public FastJsonResponseBodyConverter(Type type) {
+  FastJsonResponseBodyConverter(Type type) {
     this.type = type;
   }
 

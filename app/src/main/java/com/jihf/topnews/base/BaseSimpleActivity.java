@@ -111,11 +111,10 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
     toolbar.setTitleTextColor(Color.WHITE);
     setSupportActionBar(toolbar);
     // 设置返回键可用
+    assert null != getSupportActionBar();
     getSupportActionBar().setHomeButtonEnabled(true);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
-
-  ;
 
   public Toolbar getToolBar() {
     return toolbar;

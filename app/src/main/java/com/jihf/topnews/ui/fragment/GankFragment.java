@@ -94,7 +94,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     ryGank.setLayoutManager(linearLayoutManagerPlus);
     //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
     ryGank.setHasFixedSize(true);
-    ryGankAdapter = new RyGankAdapter(getActivity(), ryGank);
+    ryGankAdapter = new RyGankAdapter(getActivity());
     ryGank.setAdapter(ryGankAdapter);
     ryGank.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

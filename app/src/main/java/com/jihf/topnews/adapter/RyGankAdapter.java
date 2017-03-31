@@ -27,11 +27,9 @@ import java.util.Date;
  * Mail：jihaifeng@raiyi.com
  */
 public class RyGankAdapter extends BaseRecyclerAdapter<GankResultBean> {
-  private RecyclerView recyclerView;
 
-  public RyGankAdapter(Context context, RecyclerView ryGank) {
+  public RyGankAdapter(Context context) {
     super(context);
-    this.recyclerView = ryGank;
   }
 
   @Override public RecyclerView.ViewHolder onCreate(ViewGroup parent, int viewType) {
@@ -50,11 +48,11 @@ public class RyGankAdapter extends BaseRecyclerAdapter<GankResultBean> {
               .load(data.images.get(0))
               .fitCenter()
               .dontAnimate()
-              .error(DefaultBgUtils.provideIcon())
-              .placeholder(R.mipmap.loading)
+              .error(R.mipmap.loading)
+              .placeholder(DefaultBgUtils.provideDrawable())
               .into(holder.ivLeft);
         } else {
-          holder.ivLeft.setImageResource(DefaultBgUtils.provideIcon());
+          holder.ivLeft.setImageResource(R.mipmap.loading);
         }
         String publishTime = data.publishedAt;
         int idx = publishTime.lastIndexOf(".");

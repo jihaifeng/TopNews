@@ -19,7 +19,9 @@ import com.jihf.topnews.rx.RxPresenter;
 public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleActivity implements RxBaseView {
   private T presenter;
 
-  @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+  @Override
+
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     //presenter注入
     presenter = initPresenter();
@@ -50,7 +52,7 @@ public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleA
 
   @Override public void showError(String msg) {
     hideLoading();
-    Snackbar.make(contentFrame,TextUtils.isEmpty(msg) ? "数据异常" : msg,Snackbar.LENGTH_SHORT).show();
+    Snackbar.make(contentFrame, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
     LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
   }
 

@@ -2,10 +2,7 @@ package com.jihf.topnews.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
-import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.androidutils.tools.Utils;
@@ -23,7 +20,6 @@ import com.squareup.leakcanary.LeakCanary;
  */
 public class App extends Application {
   private static App instance;
-  private RxSharedPreferences rxPreference;
 
   public static App getInstance() {
     return instance;
@@ -40,8 +36,6 @@ public class App extends Application {
 
   private void init() {
     setInstance(this);
-    // Rxpreference 初始化
-    setRxPreference();
     // 工具类注入
     Utils.init(this);
     // 设置日志类是否显示
@@ -54,18 +48,6 @@ public class App extends Application {
     ScreenUtils.createInstance(this);
     // http
     HttpApiMethed.init();
-  }
-
-  public RxSharedPreferences getRxPreference() {
-    if (null == rxPreference) {
-      setRxPreference();
-    }
-    return rxPreference;
-  }
-
-  private void setRxPreference() {
-    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    rxPreference = RxSharedPreferences.create(sharedPreferences);
   }
 
   protected void attachBaseContext(Context base) {

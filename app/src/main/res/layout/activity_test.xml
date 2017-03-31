@@ -22,6 +22,11 @@
       android:id="@+id/btn_getAd"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:text="广告">
-  </Button>
+      android:text="广告"/>
+
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/default_bg"
+      android:tint="@android:color/holo_red_light"/>
 </LinearLayout>

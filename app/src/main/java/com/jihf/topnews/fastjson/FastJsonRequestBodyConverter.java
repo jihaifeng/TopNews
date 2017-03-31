@@ -13,7 +13,7 @@ import retrofit2.Converter;
  * Data：2017-03-29 17:52
  * Mail：jihaifeng@raiyi.com
  */
-public class FastJsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
+class FastJsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
   private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
 
   @Override public RequestBody convert(T value) throws IOException {
