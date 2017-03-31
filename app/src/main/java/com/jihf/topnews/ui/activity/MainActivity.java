@@ -65,8 +65,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
   private void switchShowFragment(String fgTag) {
     if (TextUtils.isEmpty(fgTag)) {
-      showFragment = new NewsMainFragment();
-      fgTag = Tag_NewsFragment;
+      showFragment = new GankMainFragment();
+      fgTag = Tag_GankFragment;
     }
     if (!TextUtils.isEmpty(curFragmmentTag) && fgTag.equals(curFragmmentTag)) {
       return;
@@ -81,7 +81,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     }
 
     if (null == showFragment) {
-      showFragment = new NewsMainFragment();
+      showFragment = new GankMainFragment();
     }
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
     fragmentTransaction.replace(R.id.fragment_content, showFragment);

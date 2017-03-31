@@ -40,7 +40,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
   @BindView (R.id.iv_data_refresh) ImageView ivDataRefresh;
   @BindView (R.id.ry_gank) RecyclerView ryGank;
   @BindView (R.id.sf_gank) SwipeRefreshLayout sfGank;
-  @BindView (R.id.ll_load_more) LinearLayout viewLoadMore;
+  @BindView (R.id.view_load_more) LinearLayout viewLoadMore;
   private RyGankAdapter ryGankAdapter;
   private int page;
 
@@ -78,13 +78,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     int state = recyclerView.getScrollState();
     LogUtils.i(TAG, visibleItemCount + "\n" + (lastVisibleItemPosition == totalItemCount - 1) + "\n" + (state
         == RecyclerView.SCROLL_STATE_IDLE));
-    if (visibleItemCount > 0
-        && lastVisibleItemPosition == totalItemCount - 1
-        && state == RecyclerView.SCROLL_STATE_IDLE) {
-      return true;
-    } else {
-      return false;
-    }
+    return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1;
   }
 
   private void initAdapter() {
@@ -96,6 +90,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
 
     LinearLayoutManagerPlus linearLayoutManagerPlus = new LinearLayoutManagerPlus(getActivity());
     linearLayoutManagerPlus.setOrientation(LinearLayoutManager.VERTICAL);
+    // 使用重写后的线性布局管理器
     ryGank.setLayoutManager(linearLayoutManagerPlus);
     //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
     ryGank.setHasFixedSize(true);
@@ -134,9 +129,9 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
   }
 
   @Override public void showMoreError(String msg) {
-    viewLoadMore.setVisibility(View.GONE);
     errorView.setVisibility(View.VISIBLE);
     ryGank.setVisibility(View.GONE);
+    viewLoadMore.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "没有更多数据..." : msg);
   }
 

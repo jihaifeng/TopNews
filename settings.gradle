@@ -1,1 +1,1 @@
-include ':app', ':androidutils', 'MaterialRefreshLayout'
+include ':app', ':androidutils'

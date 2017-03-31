@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-  <RelativeLayout
+  <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical">
+      android:orientation="vertical"
+      >
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_load_more"
         android:gravity="center"
         android:orientation="vertical"
         >
@@ -33,10 +34,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_load_more"
+        android:id="@+id/view_load_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#20000000"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone">
@@ -65,5 +67,5 @@
       </LinearLayout>
 
     </LinearLayout>
-  </RelativeLayout>
+  </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

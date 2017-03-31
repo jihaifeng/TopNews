@@ -26,9 +26,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
  */
 public class WebSiteActivity extends BaseSimpleActivity {
 
-  private Bundle bundle;
   private String title;
-  private String url;
   public static final String WEB_TITLE = "webSiteTitle";
   public static final String WEB_URL = "webSiteURL";
 
@@ -41,18 +39,17 @@ public class WebSiteActivity extends BaseSimpleActivity {
 
   @Override protected void initViewAndEvent() {
     pbWebView.setVisibility(View.GONE);
-    bundle = getDataFromExtra();
+    Bundle bundle = getDataFromExtra();
     LogUtils.i(TAG, "bundle：" + bundle);
     if (null != bundle) {
       title = bundle.getString(WEB_TITLE);
-      url = bundle.getString(WEB_URL);
+      String url = bundle.getString(WEB_URL);
       if (!TextUtils.isEmpty(url)) {
         webview.loadUrl(url);
       }
     }
     getToolBar().setTitle(TextUtils.isEmpty(title) ? "详情" : title);
     webview.setWebChromeClient(new WebChromeClient() {
-
       @Override public void onProgressChanged(WebView view, int newProgress) {
         super.onProgressChanged(view, newProgress);
         if (null != pbWebView) {
