@@ -22,6 +22,7 @@ import com.jihf.topnews.model.news.JuheResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
 import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
 import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
+import com.orhanobut.logger.Logger;
 
 /**
  * Func：
@@ -68,7 +69,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     if (null != bundle) {
       TYPE_KEY = TextUtils.isEmpty(bundle.getString(DATA_TYPE)) ? JuHeConstants.TYPE_TOP : bundle.getString(DATA_TYPE);
     }
-    LogUtils.i(TAG, "initViewAndEvent：" + TYPE_KEY);
+    Logger.t(TAG).i("initViewAndEvent：" + TYPE_KEY);
     getPresenter().getDataFromNet();
     sfNews.setOnRefreshListener(this);
     sfNews.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);

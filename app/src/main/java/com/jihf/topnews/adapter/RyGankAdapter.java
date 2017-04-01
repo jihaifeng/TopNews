@@ -49,7 +49,7 @@ public class RyGankAdapter extends BaseRecyclerAdapter<GankResultBean> {
               .fitCenter()
               .dontAnimate()
               .error(R.mipmap.loading)
-              .placeholder(DefaultBgUtils.provideDrawable())
+              .placeholder(DefaultBgUtils.provideIcon())
               .into(holder.ivLeft);
         } else {
           holder.ivLeft.setImageResource(R.mipmap.loading);

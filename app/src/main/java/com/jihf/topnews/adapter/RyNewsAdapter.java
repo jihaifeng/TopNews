@@ -78,7 +78,8 @@ public class RyNewsAdapter extends BaseRecyclerAdapter<JuheNewsBean> {
         .fitCenter()
         .dontAnimate()
         .error(R.mipmap.loading)
-        .placeholder(DefaultBgUtils.provideDrawable())
+        .placeholder(DefaultBgUtils.provideIcon())
+        .skipMemoryCache(true)
         .into(view);
   }
 

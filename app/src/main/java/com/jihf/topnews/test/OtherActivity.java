@@ -11,7 +11,7 @@ import com.jihf.topnews.base.BaseSimpleActivity;
  * Mail：jihaifeng@raiyi.com
  */
 public class OtherActivity extends BaseSimpleActivity {
-  String str = "[\n"
+public static   String str = "[\n"
       + "    {\n"
       + "        \"_id\": \"58b76cb9421aa90f131785e4\",\n"
       + "        \"createdAt\": \"2017-03-02T08:52:09.811Z\",\n"

@@ -114,6 +114,8 @@ dependencies {
   compile "com.squareup.sqlbrite:sqlbrite:${libs.sqlbrite}"
   // rxpermissions
   compile "com.tbruyelle.rxpermissions:rxpermissions:${libs.rxpermission}"
+  // 日志类
+  compile "com.orhanobut:logger:${libs.logger}"
   // Material Dialogs
   compile 'com.afollestad.material-dialogs:core:0.9.3.0'
   // 内存泄漏检测

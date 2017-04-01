@@ -1,5 +1,6 @@
 package com.jihf.topnews.test;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import butterknife.BindView;
 import com.jihf.topnews.R;
+import com.jihf.topnews.app.App;
 import com.jihf.topnews.base.BaseSimpleActivity;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +45,11 @@ public class TestActivity extends BaseSimpleActivity implements View.OnClickList
 
     otherButton.setOnClickListener(this);
     btnGetAd.setOnClickListener(v -> {
+      App.getInstance().getDbManager().insertJson("other", OtherActivity.str);
+      ContentValues values = new ContentValues();
+      values.put("USERNAME", "jihf");
+      values.put("USERPHONE", "13732632011");
+      App.getInstance().getDbManager().insertUser(values);
     });
   }
 

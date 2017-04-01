@@ -8,7 +8,9 @@ import com.jihf.androidutils.tools.ScreenUtils;
 import com.jihf.androidutils.tools.Utils;
 import com.jihf.androidutils.tools.crashLog.CrashHandler;
 import com.jihf.topnews.BuildConfig;
+import com.jihf.topnews.db.db_manager.DbManager;
 import com.jihf.topnews.http.HttpApiMethed;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -20,6 +22,8 @@ import com.squareup.leakcanary.LeakCanary;
  */
 public class App extends Application {
   private static App instance;
+
+  private DbManager dbManager;
 
   public static App getInstance() {
     return instance;
@@ -40,6 +44,7 @@ public class App extends Application {
     Utils.init(this);
     // 设置日志类是否显示
     LogUtils.setLogSwitch(BuildConfig.DEBUG);
+    Logger.init("APP");
     // 异常捕获
     CrashHandler.getInstance(this).init();
     // 内存泄漏检测
@@ -48,6 +53,12 @@ public class App extends Application {
     ScreenUtils.createInstance(this);
     // http
     HttpApiMethed.init();
+    // DB
+    dbManager = DbManager.getInstance(getInstance());
+  }
+
+  public DbManager getDbManager() {
+    return dbManager;
   }
 
   protected void attachBaseContext(Context base) {
