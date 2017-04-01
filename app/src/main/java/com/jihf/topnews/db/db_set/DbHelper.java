@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    TableManager.getInstance().dropTables(db);
+    TableManager.getInstance().createTables(db);
   }
 }

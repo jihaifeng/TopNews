@@ -61,7 +61,7 @@ public class DbManager {
     DB_VERSION = version;
   }
 
-  public static void init(Context context) {
+  private static void init(Context context) {
     SqlBrite sqlBrite = new SqlBrite.Builder().build();
     DbHelper dbHelper = new DbHelper(context, DB_NAME, null, DB_VERSION);
     db = sqlBrite.wrapDatabaseHelper(dbHelper, AndroidSchedulers.mainThread());

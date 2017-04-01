@@ -35,7 +35,7 @@ public class TableManager {
   /**
    * 新增数据表的时候，add进baseTables
    */
-  public TableManager() {
+  private TableManager() {
     if (null == baseTables) {
       baseTables = new ArrayList<>();
     }
@@ -58,7 +58,7 @@ public class TableManager {
     }
   }
 
-  @TargetApi (Build.VERSION_CODES.KITKAT) void dropTables(SQLiteDatabase db) {
+  @TargetApi (Build.VERSION_CODES.KITKAT) public void dropTables(SQLiteDatabase db) {
     for (Class<? extends BaseTable> table : baseTables) {
       try {
         BaseTable tb = table.newInstance();
