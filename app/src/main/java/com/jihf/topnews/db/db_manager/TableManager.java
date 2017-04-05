@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import com.jihf.topnews.db.db_set.BaseTable;
 import com.jihf.topnews.db.db_tables.TableJsonData;
-import com.jihf.topnews.db.db_tables.TableUser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +37,6 @@ public class TableManager {
   private TableManager() {
     if (null == baseTables) {
       baseTables = new ArrayList<>();
-    }
-    if (!baseTables.contains(TableUser.class)) {
-      baseTables.add(TableUser.class);
     }
     if (!baseTables.contains(TableJsonData.class)) {
       baseTables.add(TableJsonData.class);
