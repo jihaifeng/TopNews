@@ -1,5 +1,7 @@
 package com.jihf.topnews.db.db_module;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Func：
  * Desc:
@@ -7,7 +9,8 @@ package com.jihf.topnews.db.db_module;
  * Data：2017-04-05 11:21
  * Mail：jihaifeng@raiyi.com
  */
-public class JsonModule {
+
+public class JsonModule extends DataSupport{
   public String json_key;
   public String json_str;
 }

@@ -124,4 +124,8 @@ dependencies {
   compile 'com.github.ybq:Android-SpinKit:1.1.0'
   // 工具类
   compile project(':androidutils')
+  // 数据库
+  compile 'org.litepal.android:core:1.5.1'
+  // 指示器
+  compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

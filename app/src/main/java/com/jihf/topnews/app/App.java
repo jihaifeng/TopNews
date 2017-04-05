@@ -1,6 +1,5 @@
 package com.jihf.topnews.app;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import com.jihf.androidutils.tools.LogUtils;
@@ -12,6 +11,7 @@ import com.jihf.topnews.db.db_manager.DbManager;
 import com.jihf.topnews.http.HttpApiMethed;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
+import org.litepal.LitePalApplication;
 
 /**
  * Func：
@@ -20,7 +20,7 @@ import com.squareup.leakcanary.LeakCanary;
  * Data：2017-02-06 15:44
  * Mail：jihaifeng@raiyi.com
  */
-public class App extends Application {
+public class App extends LitePalApplication {
   private static App instance;
 
   private DbManager dbManager;
