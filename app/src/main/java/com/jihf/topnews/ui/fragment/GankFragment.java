@@ -110,7 +110,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
   @Override public void showData(GankBaseBean gankBaseBean) {
     errorView.setVisibility(View.GONE);
     ryGank.setVisibility(View.VISIBLE);
-    ryGankAdapter.replaceDatas(gankBaseBean.results);
+    ryGankAdapter.refresh(gankBaseBean.results);
     sfGank.setRefreshing(false);
     hideLoading();
   }

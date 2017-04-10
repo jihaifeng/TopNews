@@ -34,21 +34,41 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     notifyItemInserted(0);
   }
 
+  /**
+   * 获取头部View
+   *
+   * @return mHeaderView
+   */
   public View getHeaderView() {
     return mHeaderView;
   }
 
+  /**
+   * 添加数据
+   *
+   * @param datas
+   */
   public void addDatas(List<T> datas) {
     mDatas.addAll(datas);
     notifyDataSetChanged();
   }
 
-  public void replaceDatas(List<T> datas) {
+  /**
+   * 刷新数据
+   *
+   * @param datas
+   */
+  public void refresh(List<T> datas) {
     mDatas.clear();
     mDatas.addAll(datas);
     notifyDataSetChanged();
   }
 
+  /**
+   * 获取数据
+   *
+   * @return mDatas
+   */
   public List<T> getDatas() {
     return mDatas;
   }
@@ -78,9 +98,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     final int pos = getRealPosition(viewHolder);
     final T data = mDatas.get(pos);
     onBind(viewHolder, pos, data);
-    viewHolder.itemView.setOnClickListener(v -> {
-      onItemClick(pos, data);
-    });
+    viewHolder.itemView.setOnClickListener(v -> onItemClick(pos, data));
     viewHolder.itemView.setOnLongClickListener(v -> {
       OnItemLongClickListener(pos, data);
       return false;
@@ -144,6 +162,4 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
   // item 长按
   protected abstract void OnItemLongClickListener(int position, T data);
-
-
 }

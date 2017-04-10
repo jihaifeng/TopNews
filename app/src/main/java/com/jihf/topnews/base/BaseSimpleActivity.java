@@ -231,7 +231,7 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
 
   public void exit() {
     if ((System.currentTimeMillis() - exitTime) > 2000) {
-      SnackBarUtils.creatShort(contentFrame, "再按一次退出程序").setType(SnackBarType.Confirm).show();
+      SnackBarUtils.creatShort(contentFrame, "再按一次退出程序").setType(SnackBarType.Info).show();
       exitTime = System.currentTimeMillis();
     } else {
       finish();

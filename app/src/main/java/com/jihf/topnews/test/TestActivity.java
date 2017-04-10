@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import butterknife.BindView;
 import com.jihf.androidutils.tools.snackBar.SnackBarType;
@@ -35,7 +36,9 @@ public class TestActivity extends BaseSimpleActivity implements View.OnClickList
   @BindView (R.id.ll_root) LinearLayout llRoot;
   @BindView (R.id.btn_save) Button btnSave;
   @BindView (R.id.btn_get) Button btnGet;
+  @BindView (R.id.root) RelativeLayout root;
   int i = 0;
+
   @Override protected int getLayoutId() {
     return R.layout.activity_test;
   }

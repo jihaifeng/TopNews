@@ -11,6 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.jihf.androidutils.R;
 
+import static com.jihf.androidutils.tools.snackBar.SnackBarType.Alert;
+import static com.jihf.androidutils.tools.snackBar.SnackBarType.Confirm;
+import static com.jihf.androidutils.tools.snackBar.SnackBarType.Info;
+import static com.jihf.androidutils.tools.snackBar.SnackBarType.Warning;
+
 /**
  * Func：
  * User：jihf
@@ -130,7 +135,7 @@ public class SnackBarUtils {
    *
    * @return snackBar
    */
-  public SnackBarUtils setType(SnackBarType type) {
+  public SnackBarUtils setType(@SnackBarType int type) {
     if (null == snackbar) {
       throw new NullPointerException("the snackBar is null!");
     }

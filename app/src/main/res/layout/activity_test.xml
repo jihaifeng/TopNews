@@ -32,4 +32,6 @@
       android:src="@drawable/default_bg"
       android:text="get"
       android:tint="@android:color/holo_red_light"/>
+
+  <include layout="@layout/city_item_name"/>
 </LinearLayout>

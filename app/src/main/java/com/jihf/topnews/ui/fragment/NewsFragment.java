@@ -100,7 +100,7 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     ryNews.setVisibility(View.VISIBLE);
     hideLoading();
     if (null != resultBean && null != resultBean.data && resultBean.data.size() != 0) {
-      ryNewsAdapter.replaceDatas(resultBean.data);
+      ryNewsAdapter.refresh(resultBean.data);
     }
     JuHeConstants.setHasShowLoading(true);
     sfNews.setRefreshing(false);
