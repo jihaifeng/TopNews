@@ -1,5 +1,6 @@
 package com.jihf.topnews.rx;
 
+import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.BuildConfig;
 import com.jihf.topnews.app.App;
 import com.jihf.topnews.fastjson.FastJsonConverterFactory;
@@ -29,7 +30,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
  * Mail：jihaifeng@raiyi.com
  */
 public class RxHelper {
-  private static Retrofit retrofit = null;
+  public static final String TAG = RxHelper.class.getSimpleName().trim();
   private OkHttpClient client;
   private static RxHelper instance;
 
@@ -105,7 +106,8 @@ public class RxHelper {
 
     //设置log信息拦截器
     if (BuildConfig.DEBUG) {
-      HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
+      HttpLoggingInterceptor logInterceptor =
+          new HttpLoggingInterceptor(message -> LogUtils.i(TAG, "retrofit: " + message));
       logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
       builder.addInterceptor(logInterceptor);
     }

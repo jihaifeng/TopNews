@@ -1,5 +1,7 @@
 package com.jihf.topnews.ui.activity;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -7,11 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import butterknife.BindView;
-import butterknife.OnClick;
 import com.jihf.topnews.R;
 import com.jihf.topnews.base.BaseMvpActivity;
 import com.jihf.topnews.contract.MainContract;
@@ -21,13 +20,15 @@ import com.jihf.topnews.ui.fragment.GankMainFragment;
 import com.jihf.topnews.ui.fragment.NewsMainFragment;
 import com.jihf.topnews.utils.SharedPreferencesUtils;
 
-public class MainActivity extends BaseMvpActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseMvpActivity<MainPresenter>
+    implements MainContract.View, NavigationView.OnNavigationItemSelectedListener {
 
   @BindView (R.id.fragment_content) FrameLayout idContent;
   @BindView (R.id.drawer_root) DrawerLayout drawerRoot;
-  @BindView (R.id.btn_test) Button btnTest;
-  @BindView (R.id.btn_news) Button btnNews;
-  @BindView (R.id.btn_gank) Button btnGank;
+  @BindView (R.id.navigation_left) NavigationView navigationLeft;
+  //@BindView (R.id.btn_test) Button btnTest;
+  //@BindView (R.id.btn_gank) Button btnGank;
+  //@BindView (R.id.btn_news) Button btnNews;
 
   private String curFragmmentTag;
   private String fragmentTag;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     drawerRoot.setClipToPadding(false);
     fragmentTag = SharedPreferencesUtils.getInstance().getString(fragmentTag);
     switchShowFragment(fragmentTag);
+    navigationLeft.setNavigationItemSelectedListener(this);
   }
 
   private void switchShowFragment(String fgTag) {
@@ -111,24 +113,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     return true;
   }
 
-  @OnClick ({ R.id.btn_test, R.id.btn_news, R.id.btn_gank }) public void onClick(View view) {
-    switch (view.getId()) {
-      case R.id.btn_test:
-        jumpTo(TestActivity.class);
-
-        break;
-      case R.id.btn_news:
-        switchShowFragment(Tag_NewsFragment);
-        break;
-      case R.id.btn_gank:
-        switchShowFragment(Tag_GankFragment);
-        break;
-    }
-    if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
-      drawerRoot.closeDrawer(GravityCompat.START);
-    }
-  }
-
   @Override public void onBackPressed() {
     if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
       drawerRoot.closeDrawer(GravityCompat.START);
@@ -138,6 +122,26 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
   }
 
   @Override protected boolean initSwipeBackEnable() {
+    return false;
+  }
+
+  @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.test:
+        jumpTo(TestActivity.class);
+        break;
+      case R.id.news:
+        switchShowFragment(Tag_NewsFragment);
+        item.setChecked(true);
+        break;
+      case R.id.gank:
+        switchShowFragment(Tag_GankFragment);
+        item.setChecked(true);
+        break;
+    }
+    if (drawerRoot.isDrawerOpen(GravityCompat.START)) {
+      drawerRoot.closeDrawer(GravityCompat.START);
+    }
     return false;
   }
 }

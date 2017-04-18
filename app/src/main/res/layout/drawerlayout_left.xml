@@ -12,32 +12,32 @@
       android:layout_weight="1"
       android:background="@mipmap/drawer_head_bg"/>
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="2"
-      android:orientation="vertical">
+  <!--<LinearLayout-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="0dp"-->
+  <!--android:layout_weight="2"-->
+  <!--android:orientation="vertical">-->
 
-    <Button
-        android:id="@+id/btn_news"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_10"
-        android:text="新闻"/>
+  <!--<Button-->
+  <!--android:id="@+id/btn_news"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--android:layout_margin="@dimen/dp_10"-->
+  <!--android:text="新闻"/>-->
 
-    <Button
-        android:id="@+id/btn_gank"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_10"
-        android:text="Gank"/>
+  <!--<Button-->
+  <!--android:id="@+id/btn_gank"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--android:layout_margin="@dimen/dp_10"-->
+  <!--android:text="Gank"/>-->
 
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_10"
-        android:text="测试"/>
-  </LinearLayout>
+  <!--<Button-->
+  <!--android:id="@+id/btn_test"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="wrap_content"-->
+  <!--android:layout_margin="@dimen/dp_10"-->
+  <!--android:text="测试"/>-->
+  <!--</LinearLayout>-->
 
 </LinearLayout>

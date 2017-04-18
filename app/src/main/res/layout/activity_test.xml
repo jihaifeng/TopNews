@@ -6,19 +6,6 @@
     android:orientation="vertical"
     android:paddingTop="10dp">
 
-  <Spinner
-      android:id="@+id/animation_sp"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
-  </Spinner>
-
-  <Button
-      android:id="@+id/other_button"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="打开Other窗口">
-  </Button>
-
   <Button
       android:id="@+id/btn_save"
       android:layout_width="fill_parent"
@@ -32,6 +19,20 @@
       android:src="@drawable/default_bg"
       android:text="get"
       android:tint="@android:color/holo_red_light"/>
+  <Button
+      android:id="@+id/btn_other"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:src="@drawable/default_bg"
+      android:text="other"
+      android:tint="@android:color/holo_red_light"/>
 
-  <include layout="@layout/city_item_name"/>
+  <Button
+      android:id="@+id/btn_share_wx"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:src="@drawable/default_bg"
+      android:text="share to wx"
+      android:tint="@android:color/holo_red_light"/>
+
 </LinearLayout>

@@ -33,8 +33,8 @@ import com.jihf.topnews.R;
 public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
   public static String TAG = BaseSimpleActivity.class.getSimpleName().trim();
 
-  @BindView (R.id.content_frame) FrameLayout contentFrame;
   @BindView (R.id.toolbar) Toolbar toolbar;
+  @BindView (R.id.content_frame) FrameLayout contentFrame;
 
   private Context mBaseContext;
   private Activity mCurrentActivity;
