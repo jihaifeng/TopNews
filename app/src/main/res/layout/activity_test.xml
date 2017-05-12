@@ -19,6 +19,7 @@
       android:src="@drawable/default_bg"
       android:text="get"
       android:tint="@android:color/holo_red_light"/>
+
   <Button
       android:id="@+id/btn_other"
       android:layout_width="match_parent"
@@ -35,4 +36,10 @@
       android:text="share to wx"
       android:tint="@android:color/holo_red_light"/>
 
+  <RelativeLayout
+      android:id="@+id/rl_root"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+  </RelativeLayout>
 </LinearLayout>

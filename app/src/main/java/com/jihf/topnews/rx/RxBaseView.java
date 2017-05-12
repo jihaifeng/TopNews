@@ -1,5 +1,7 @@
 package com.jihf.topnews.rx;
 
+import com.jihf.topnews.widget.EmptyView.RetryListener;
+import com.trello.rxlifecycle.LifecycleTransformer;
 import rx.Observable;
 
 /**
@@ -13,5 +15,36 @@ import rx.Observable;
 public interface RxBaseView {
   <T> Observable.Transformer<T, T> bindToLifecycle();
 
-  void showError(String msg);
+  /**
+   * 绑定生命周期
+   *
+   * @param <T>
+   *
+   * @return
+   */
+  <T> LifecycleTransformer<T> bindToLife();
+
+  /**
+   * 显示加载动画
+   */
+  void showLoading();
+
+  /**
+   * 隐藏加载
+   */
+  void hideLoading();
+
+  /**
+   * 显示网络错误
+   *
+   * @param retryListener 点击监听
+   */
+  void showNetError(RetryListener retryListener);
+
+  /**
+   * 显示数据异常
+   *
+   * @param retryListener 点击监听
+   */
+  void showDataError(String msg, RetryListener retryListener);
 }

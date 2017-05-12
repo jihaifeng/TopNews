@@ -20,8 +20,9 @@ import com.jihf.topnews.constants.JuHeConstants;
 import com.jihf.topnews.contract.NewsContract;
 import com.jihf.topnews.model.news.JuheResultBean;
 import com.jihf.topnews.presenter.NewsPresenter;
-import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
-import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
+import com.jihf.topnews.widget.EmptyView.RetryListener;
+import com.jihf.topnews.widget.recyclerview.DividerItemDecoration;
+import com.jihf.topnews.widget.recyclerview.LinearLayoutManagerPlus;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -111,8 +112,8 @@ public class NewsFragment extends BaseMvpFragment<NewsPresenter>
     JuHeConstants.setHasShowLoading(false);
   }
 
-  @Override public void showError(String msg) {
-    super.showError(msg);
+  @Override public void showDataError(String msg, RetryListener retryListener) {
+    super.showDataError(msg, retryListener);
     errorView.setVisibility(View.VISIBLE);
     ryNews.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);

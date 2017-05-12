@@ -1,6 +1,7 @@
 package com.jihf.topnews.presenter;
 
 import android.content.Context;
+import com.jihf.topnews.constants.GankConstants;
 import com.jihf.topnews.contract.GankContract;
 import com.jihf.topnews.http.HttpApiMethed;
 import com.jihf.topnews.model.gank.GankBaseBean;
@@ -11,35 +12,26 @@ import com.jihf.topnews.rx.RxSubscriber;
  * Func：
  * Desc:
  * Author：jihf
- * Data：2017-03-27 18:07
+ * Date：2017-05-05 10:31
  * Mail：jihaifeng@raiyi.com
  */
-public class GankPresenter extends RxBasePresenter<GankContract.View> implements GankContract.Presenter {
-  public GankPresenter(Context context) {
+public class PicturePresenter extends RxBasePresenter<GankContract.View> implements GankContract.Presenter {
+  public PicturePresenter(Context context) {
     super(context);
   }
 
   @Override public void getDataFromNet() {
-    HttpApiMethed.getGankData(getmView().getType(), 1, getmView()).subscribe(new RxSubscriber<GankBaseBean>() {
+    HttpApiMethed.getGankData(GankConstants.gank_fuli, 1, getmView()).subscribe(new RxSubscriber<GankBaseBean>() {
       @Override protected void onError(String message) {
         getmView().showDataError(message, () -> getDataFromNet());
       }
 
       @Override public void onNext(GankBaseBean gankBaseBean) {
-        getmView().showData(gankBaseBean);
       }
     });
   }
 
   @Override public void loadMore(int page) {
-    HttpApiMethed.getGankData(getmView().getType(), page, getmView()).subscribe(new RxSubscriber<GankBaseBean>() {
-      @Override protected void onError(String message) {
-        getmView().showMoreError(message);
-      }
 
-      @Override public void onNext(GankBaseBean gankBaseBean) {
-        getmView().showMore(gankBaseBean);
-      }
-    });
   }
 }

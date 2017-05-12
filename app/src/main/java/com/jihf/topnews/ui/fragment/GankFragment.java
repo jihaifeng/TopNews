@@ -21,8 +21,8 @@ import com.jihf.topnews.constants.GankConstants;
 import com.jihf.topnews.contract.GankContract;
 import com.jihf.topnews.model.gank.GankBaseBean;
 import com.jihf.topnews.presenter.GankPresenter;
-import com.jihf.topnews.view.recyclerview.DividerItemDecoration;
-import com.jihf.topnews.view.recyclerview.LinearLayoutManagerPlus;
+import com.jihf.topnews.widget.recyclerview.DividerItemDecoration;
+import com.jihf.topnews.widget.recyclerview.LinearLayoutManagerPlus;
 
 /**
  * Func：
@@ -54,7 +54,7 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
 
   @Override protected void initViewAndEvent() {
     initAdapter();
-    //showLoading();
+
     Bundle bundle = getArguments();
     if (null != bundle) {
       type = TextUtils.isEmpty(bundle.getString(GANK_DATA_TYPE)) ? GankConstants.gank_all
@@ -88,7 +88,8 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     ryGank.removeItemDecoration(decoration);
     ryGank.addItemDecoration(decoration);
 
-    LinearLayoutManagerPlus linearLayoutManagerPlus = new LinearLayoutManagerPlus(getActivity());
+    LinearLayoutManagerPlus linearLayoutManagerPlus =
+        new LinearLayoutManagerPlus(getActivity());
     linearLayoutManagerPlus.setOrientation(LinearLayoutManager.VERTICAL);
     // 使用重写后的线性布局管理器
     ryGank.setLayoutManager(linearLayoutManagerPlus);
@@ -115,8 +116,8 @@ public class GankFragment extends BaseMvpFragment<GankPresenter>
     hideLoading();
   }
 
-  @Override public void showError(String msg) {
-    super.showError(msg);
+  @Override public void showDataError(String msg, com.jihf.topnews.widget.EmptyView.RetryListener retryListener) {
+    super.showDataError(msg, retryListener);
     errorView.setVisibility(View.VISIBLE);
     ryGank.setVisibility(View.GONE);
     tvErrorMsg.setText(TextUtils.isEmpty(msg) ? "数据异常..." : msg);

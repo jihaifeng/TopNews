@@ -94,10 +94,10 @@ dependencies {
   compile "com.jakewharton:butterknife:${libs.butterknife}"
   // 添加这行
   apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
-  // fastjson
-  compile "com.alibaba:fastjson:${libs.fastjson}"
   // retrofit + gson + rxjava + okhttp 套装
   compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+  // retrofit-converter-fastjson
+  compile "org.ligboy.retrofit2:converter-fastjson-android:${libs.retrofit}"
   // compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
   compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
   // Glide 图片加载
@@ -131,5 +131,5 @@ dependencies {
   compile 'org.litepal.android:core:1.5.1'
   // 指示器
   compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-  compile project(':thirdutils')
+  compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.7'
 }

@@ -30,16 +30,16 @@ public class MainActivity extends BaseMvpActivity<MainPresenter>
   //@BindView (R.id.btn_gank) Button btnGank;
   //@BindView (R.id.btn_news) Button btnNews;
 
-  private String curFragmmentTag;
+  private String curFragmentTag;
   private String fragmentTag;
 
   private Fragment showFragment;
 
+  private String title = "新闻";
+
   public static final String Tag_NewsFragment = "news";
   public static final String Tag_GankFragment = "gank";
-
-  private NewsMainFragment newsMainFragment;
-  private GankMainFragment gankMainFragment;
+  public static final String Tag_MeiziFragment = "meizi";
 
   @Override protected MainPresenter initPresenter() {
     return new MainPresenter(this);
@@ -50,8 +50,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter>
   }
 
   @Override protected void initViewAndEvent() {
-
-    getToolBar().setTitle("新闻");
     ActionBarDrawerToggle drawerToggle =
         new ActionBarDrawerToggle(this, drawerRoot, getToolBar(), R.string.drawer_open, R.string.drawer_close);
     drawerToggle.syncState();
@@ -66,29 +64,38 @@ public class MainActivity extends BaseMvpActivity<MainPresenter>
   }
 
   private void switchShowFragment(String fgTag) {
+
     if (TextUtils.isEmpty(fgTag)) {
       showFragment = new NewsMainFragment();
       fgTag = Tag_NewsFragment;
     }
-    if (!TextUtils.isEmpty(curFragmmentTag) && fgTag.equals(curFragmmentTag)) {
+    if (!TextUtils.isEmpty(curFragmentTag) && fgTag.equals(curFragmentTag)) {
       return;
     }
     switch (fgTag) {
       case Tag_NewsFragment:
         showFragment = new NewsMainFragment();
+        title = "新闻";
         break;
       case Tag_GankFragment:
         showFragment = new GankMainFragment();
+        title = "干货";
+        break;
+      case Tag_MeiziFragment:
+        //showFragment = new GirlsFragment();
+        title = "妹子";
         break;
     }
 
     if (null == showFragment) {
       showFragment = new NewsMainFragment();
     }
+
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
     fragmentTransaction.replace(R.id.fragment_content, showFragment);
     fragmentTransaction.commit();
-    curFragmmentTag = fgTag;
+    curFragmentTag = fgTag;
+    getToolBar().setTitle(title);
   }
 
   @Override public void showUpdateDialog(String newVersion) {
@@ -136,6 +143,10 @@ public class MainActivity extends BaseMvpActivity<MainPresenter>
         break;
       case R.id.gank:
         switchShowFragment(Tag_GankFragment);
+        item.setChecked(true);
+        break;
+      case R.id.meizi:
+        switchShowFragment(Tag_MeiziFragment);
         item.setChecked(true);
         break;
     }

@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,11 +19,15 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.ActivityUtils;
 import com.jihf.androidutils.tools.LogUtils;
-import com.jihf.androidutils.tools.ProgressDialogUtils;
 import com.jihf.androidutils.tools.snackBar.SnackBarType;
 import com.jihf.androidutils.tools.snackBar.SnackBarUtils;
 import com.jihf.swipbackhelper.SwipeBackHelper;
 import com.jihf.topnews.R;
+import com.jihf.topnews.rx.RxBaseView;
+import com.jihf.topnews.widget.EmptyView.EmptyLayout;
+import com.jihf.topnews.widget.EmptyView.Empty_status;
+import com.jihf.topnews.widget.EmptyView.RetryListener;
+import com.trello.rxlifecycle.LifecycleTransformer;
 
 /**
  * Func：
@@ -30,11 +36,16 @@ import com.jihf.topnews.R;
  * Data：2017-03-09 09:32
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
+public abstract class BaseSimpleActivity extends BaseSwipeBackActivity implements RxBaseView {
   public static String TAG = BaseSimpleActivity.class.getSimpleName().trim();
 
   @BindView (R.id.toolbar) Toolbar toolbar;
   @BindView (R.id.content_frame) FrameLayout contentFrame;
+  /**
+   * 把 EmptyLayout 放在基类统一处理，@Nullable 表明 View 可以为 null，详细可看 ButterKnife
+   */
+  @Nullable
+  @BindView (R.id.empty_layout_root) EmptyLayout emptyLayout;
 
   private Context mBaseContext;
   private Activity mCurrentActivity;
@@ -131,6 +142,10 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
     return true;
   }
 
+  @Override public <E> LifecycleTransformer<E> bindToLife() {
+    return this.bindToLifecycle();
+  }
+
   /**
    * Activity 统一配置
    *
@@ -205,16 +220,45 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
     mCurrentActivity.startActivityForResult(intent, resultCode);
   }
 
+  @SuppressWarnings ("unchecked") public final <E extends View> E getView(int id) {
+    try {
+      return (E) findViewById(id);
+    } catch (Exception e) {
+      LogUtils.i(TAG, "Can not cast view to concrete class" + e);
+      throw e;
+    }
+  }
+
   public void jumpToWithResultCode(Class to, int resultCode) {
     jumpToWithResultCode(to, null, resultCode);
   }
 
-  public void showLoading() {
-    ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
+  @Override public void showLoading() {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_LOADING);
+    }
   }
 
-  public void hideLoading() {
-    ProgressDialogUtils.hideProgressDialog();
+  @Override public void hideLoading() {
+    if (null != emptyLayout) {
+      emptyLayout.hide();
+    }
+  }
+
+  @Override public void showNetError(RetryListener retryListener) {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_NO_NET);
+      emptyLayout.setRetryListener(retryListener);
+    }
+  }
+
+  @Override public void showDataError(String msg, RetryListener retryListener) {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_NO_DATA);
+      emptyLayout.setRetryListener(retryListener);
+    }
+    Snackbar.make(contentFrame, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
+    LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
   }
 
   protected abstract int getLayoutId();
@@ -231,7 +275,7 @@ public abstract class BaseSimpleActivity extends BaseSwipeBackActivity {
 
   public void exit() {
     if ((System.currentTimeMillis() - exitTime) > 2000) {
-      SnackBarUtils.creatShort(contentFrame, "再按一次退出程序").setType(SnackBarType.Info).show();
+      SnackBarUtils.creatShort(contentFrame, "再按一次退出程序").setType(SnackBarType.Warning).show();
       exitTime = System.currentTimeMillis();
     } else {
       finish();

@@ -17,7 +17,7 @@ import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.R;
 import com.jihf.topnews.model.news.JuheNewsBean;
 import com.jihf.topnews.utils.DefaultBgUtils;
-import com.jihf.topnews.view.recyclerview.BaseRecyclerAdapter;
+import com.jihf.topnews.widget.recyclerview.BaseRecyclerAdapter;
 import com.jihf.topnews.webview.activity.WebSiteActivity;
 
 /**

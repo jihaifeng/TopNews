@@ -2,11 +2,7 @@ package com.jihf.topnews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.text.TextUtils;
 import com.jihf.androidutils.tools.LogUtils;
-import com.jihf.androidutils.tools.ProgressDialogUtils;
-import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
 
 /**
@@ -16,7 +12,7 @@ import com.jihf.topnews.rx.RxPresenter;
  * Data：2017-02-07 09:08
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleActivity implements RxBaseView {
+public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleActivity {
   private T presenter;
 
   @Override
@@ -50,19 +46,7 @@ public abstract class BaseMvpActivity<T extends RxPresenter> extends BaseSimpleA
     return presenter;
   }
 
-  @Override public void showError(String msg) {
-    hideLoading();
-    Snackbar.make(contentFrame, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
-    LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
-  }
 
-  public void showLoading() {
-    ProgressDialogUtils.showProgressDialog(this, "数据加载中...");
-  }
-
-  public void hideLoading() {
-    ProgressDialogUtils.hideProgressDialog();
-  }
 
   protected abstract T initPresenter();
 }

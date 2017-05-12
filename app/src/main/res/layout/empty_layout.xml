@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jihf.topnews.widget.EmptyView.EmptyLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/empty_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:background_color="@android:color/transparent">
+
+</com.jihf.topnews.widget.EmptyView.EmptyLayout>

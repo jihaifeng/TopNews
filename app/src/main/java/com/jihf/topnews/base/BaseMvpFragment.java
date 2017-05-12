@@ -2,13 +2,9 @@ package com.jihf.topnews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.jihf.androidutils.tools.ProgressDialogUtils;
-import com.jihf.topnews.rx.RxBaseView;
 import com.jihf.topnews.rx.RxPresenter;
 
 /**
@@ -18,13 +14,15 @@ import com.jihf.topnews.rx.RxPresenter;
  * Data：2017-02-22 15:53
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseMvpFragment<T extends RxPresenter> extends BaseSimpleFragment implements RxBaseView {
+public abstract class BaseMvpFragment<T extends RxPresenter> extends BaseSimpleFragment {
   private T presenter;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     presenter = initPresenter();
-    presenter.attachView(this);
+    if (null != presenter) {
+      presenter.attachView(this);
+    }
     return super.onCreateView(inflater, container, savedInstanceState);
   }
 
@@ -40,19 +38,6 @@ public abstract class BaseMvpFragment<T extends RxPresenter> extends BaseSimpleF
       throw new NullPointerException("you have not init presenter.");
     }
     return presenter;
-  }
-
-  @Override public void showError(String msg) {
-    hideLoading();
-    Snackbar.make(view, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
-  }
-
-  public void showLoading() {
-    ProgressDialogUtils.showProgressDialog(getActivity(), "数据加载中...");
-  }
-
-  public void hideLoading() {
-    ProgressDialogUtils.hideProgressDialog();
   }
 
   protected abstract T initPresenter();

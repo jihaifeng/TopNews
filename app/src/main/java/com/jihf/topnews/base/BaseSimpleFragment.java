@@ -2,13 +2,21 @@ package com.jihf.topnews.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.jihf.androidutils.tools.LogUtils;
-import com.jihf.androidutils.tools.ProgressDialogUtils;
+import com.jihf.topnews.R;
+import com.jihf.topnews.rx.RxBaseView;
+import com.jihf.topnews.widget.EmptyView.EmptyLayout;
+import com.jihf.topnews.widget.EmptyView.Empty_status;
+import com.jihf.topnews.widget.EmptyView.RetryListener;
+import com.trello.rxlifecycle.LifecycleTransformer;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 /**
@@ -18,10 +26,15 @@ import com.trello.rxlifecycle.components.support.RxFragment;
  * Data：2017-03-09 10:12
  * Mail：jihaifeng@raiyi.com
  */
-public abstract class BaseSimpleFragment extends RxFragment {
+public abstract class BaseSimpleFragment extends RxFragment implements RxBaseView {
   public static String TAG = BaseSimpleFragment.class.getSimpleName().trim();
   private Unbinder unbinder;
   public View view;
+  /**
+   * 把 EmptyLayout 放在基类统一处理，@Nullable 表明 View 可以为 null，详细可看 ButterKnife
+   */
+  @Nullable
+  @BindView (R.id.empty_layout_root) EmptyLayout emptyLayout;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +63,36 @@ public abstract class BaseSimpleFragment extends RxFragment {
     super.onDestroy();
   }
 
-  public void showLoading() {
-    ProgressDialogUtils.showProgressDialog(getActivity(), "数据加载中...");
+  @Override public void showLoading() {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_LOADING);
+    }
   }
 
-  public void hideLoading() {
-    ProgressDialogUtils.hideProgressDialog();
+  @Override public void hideLoading() {
+    if (null != emptyLayout) {
+      emptyLayout.hide();
+    }
+  }
+
+  @Override public void showNetError(RetryListener retryListener) {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_NO_NET);
+      emptyLayout.setRetryListener(retryListener);
+    }
+  }
+
+  @Override public void showDataError(String msg, RetryListener retryListener) {
+    if (null != emptyLayout) {
+      emptyLayout.setEmptyStatus(Empty_status.STATUS_NO_DATA);
+      emptyLayout.setRetryListener(retryListener);
+    }
+    Snackbar.make(view, TextUtils.isEmpty(msg) ? "数据异常" : msg, Snackbar.LENGTH_SHORT).show();
+    LogUtils.i(TAG, TextUtils.isEmpty(msg) ? "数据异常" : msg);
+  }
+
+  @Override public <E> LifecycleTransformer<E> bindToLife() {
+    return this.bindToLifecycle();
   }
 
   protected abstract int getLayoutId();

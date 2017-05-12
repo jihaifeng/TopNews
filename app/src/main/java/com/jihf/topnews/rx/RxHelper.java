@@ -3,7 +3,6 @@ package com.jihf.topnews.rx;
 import com.jihf.androidutils.tools.LogUtils;
 import com.jihf.topnews.BuildConfig;
 import com.jihf.topnews.app.App;
-import com.jihf.topnews.fastjson.FastJsonConverterFactory;
 import com.jihf.topnews.utils.NetWorkUtils;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 /**
  * Func：
