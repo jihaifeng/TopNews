@@ -9,6 +9,7 @@ import com.jihf.androidutils.tools.crashLog.CrashHandler;
 import com.jihf.topnews.BuildConfig;
 import com.jihf.topnews.db.db_manager.DbManager;
 import com.jihf.topnews.http.HttpApiMethed;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import org.litepal.LitePalApplication;
@@ -44,7 +45,7 @@ public class App extends LitePalApplication {
     Utils.init(this);
     // 设置日志类是否显示
     LogUtils.setLogSwitch(BuildConfig.DEBUG);
-    Logger.init("APP");
+    Logger.addLogAdapter(new AndroidLogAdapter());
     // 异常捕获
     CrashHandler.getInstance(this).init();
     // 内存泄漏检测
