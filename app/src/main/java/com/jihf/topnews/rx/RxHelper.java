@@ -34,7 +34,7 @@ public class RxHelper {
   private OkHttpClient client;
   private static RxHelper instance;
 
-  public RxHelper() {
+  private RxHelper() {
     initOkHttp();
   }
 
